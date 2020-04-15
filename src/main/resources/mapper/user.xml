@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.carrot.styleshare.repository.UserRepository">
+
+	<!-- 세션 -->
+	<select id="authentication"
+		resultType="com.carrot.styleshare.model.user.User">
+		select * from user where username = #{username}
+	</select>
+
+	<!-- 회원가입 -->
+	<insert id="save">
+  		insert into user(username, password, email, createDate) 
+  		values(#{username}, #{password}, #{email}, now())
+  	</insert>
+  
+	<!-- id 중복확인 -->
+  	<select id="findByUsername" resultType="int">
+    	select count(*) from user where username = #{username}
+  	</select>
+    
+	<!--프로필 수정 -->	
+	<update id="updateProfile">
+		update user set profile=#{profile}, introduction=#{introduction}, email=#{email}, height=#{height}, gender=#{gender}, 
+		age=#{age}, insta=#{insta}, site=#{site} where id=#{id}
+	</update>
+
+	<!--회원정보 수정 후 세션에 덮어쓰기 위한 쿼리 -->
+	<select id="findById" resultType="com.carrot.styleshare.model.user.User">
+		select id, username, email, profile, introduction, height, gender, age, insta, site, createDate from user where id = #{id}
+	</select>
+	
+	<!-- 비밀번호 변경 -->
+	<update id="updatePassword">
+		update user set password=#{password} where username=#{username}
+	</update>
+	
+</mapper>

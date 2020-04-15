@@ -1,0 +1,49 @@
+@charset "UTF-8";
+
+body {
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 1)),
+    url(/img/background.jpg);
+  background-attachment: fixed;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.form-content {
+  width: 60vw;
+  /* height: 40vh; */
+  max-width: 750px;
+  min-width: 550px;
+  transform: translate(-50%, -50%);
+  top: 50%;
+  left: 50%;
+  position: absolute;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 15px;
+}
+
+h1 {
+  font-size: 50px;
+  font-weight: bolder;
+  margin-top: 10px;
+  margin-bottom: 0;
+}
+
+h5 {
+  color: rgb(85, 84, 84);
+  font-weight: bolder;
+}
+
+.form-left {
+  width: 60%;
+  border-right: dashed gray 1px;
+}
+
+.form-right {
+  width: 40%;
+}
+
+.login-toggle {
+  font-size: 14px;
+}
