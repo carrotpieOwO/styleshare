@@ -1,0 +1,270 @@
+@charset "UTF-8";
+
+#user .img img {
+  border-radius: 50%;
+  border: 1px #ddd solid;
+}
+
+.rank1,
+.rank2,
+.rank3 {
+  width: 20px;
+  height: 20px;
+  border: 1px #666 solid;
+  border-width: 1.5px;
+  background: rgba(0, 0, 0, 0.8);
+  text-align: center;
+  color: #fff;
+  border-radius: 50%;
+  line-height: 1;
+  vertical-align: middle;
+}
+.rank1 {
+  border-color: #e6d439;
+}
+.rank2 {
+  border-color: #adadad;
+}
+.rank3 {
+  border-color: #9a5b00;
+}
+
+.profile img {
+  border-radius: 50%;
+  border: 1px black;
+}
+.balloon {
+  position: relative;
+  display: inline-block;
+}
+.balloon span {
+  display: inline-block;
+  padding: 10px;
+  color: white;
+  background: #007bff;
+  border-radius: 20px;
+}
+.balloon:after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-style: solid;
+}
+.balloon.test_3:after,
+.balloon.test_4:after {
+  border-width: 10px 15px;
+  top: 50%;
+  margin-top: -10px;
+}
+.balloon.test_3:after {
+  border-color: transparent #007bff transparent transparent;
+  left: -25px;
+}
+.balloon.test_4:after {
+  border-color: transparent transparent transparent #007bff;
+  right: -25px;
+}
+/*여기서부터 새로*/
+nav {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.97);
+  -webkit-box-shadow: 0 4px 6px -2px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 6px -2px rgba(0, 0, 0, 0.3);
+  display: table;
+}
+a{
+  text-decoration: none;
+}
+
+a:hover{
+  text-decoration: none;
+}
+
+.nav-list {
+  height: 70px;
+}
+
+.nav-list a {
+  text-decoration: none;
+  color: #000;
+}
+
+.card a {
+  text-decoration: none;
+  color: #000;
+}
+
+.nav-home {
+  background: #000;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: larger;
+}
+
+.nav-search {
+  width: 50%;
+}
+
+input::placeholder {
+  font-family: "Font Awesome 5 Free";
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  display: inline-block;
+  font-style: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  line-height: 1;
+  font-weight: 900;
+}
+
+.form-control,
+.btn {
+  border-radius: 20px;
+  text-align: center;
+  font-size: 14px;
+}
+
+.nav-menu li {
+  color: #000;
+  text-decoration: none;
+  list-style: none;
+  font-weight: bold;
+}
+.borderCenter {
+  position: relative;
+}
+
+.borderCenter::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -3px;
+  width: 25%;
+  height: 3px;
+  opacity: 0;
+  background-color: #000;
+  transform: translate(-50%, 0);
+  transition: all 0.3s ease-in-out;
+}
+
+.borderCenter:hover::after {
+  width: 60%;
+  opacity: 1;
+}
+
+.textZoom {
+  transition: transform 0.3s;
+}
+
+.textZoom:hover {
+  transform: scale(1.2);
+}
+
+.card-img-top {
+  height: 300px;
+}
+
+.style-card {
+  margin-bottom: 25px;
+}
+
+.card-img-overlay i {
+  float: right;
+  color: #fff;
+}
+
+.style{
+  position: relative;
+}
+
+.style-info{
+  
+    position: absolute; 
+    top: 50%; 
+    left: 50%; 
+    color: white;
+    transform: translate(-50%, -50%);
+    visibility: hidden;  
+  
+}
+
+.list-badge {
+	position: absolute;
+	bottom: 10px;
+	left: 5px;
+}
+
+      
+#user_header_mini {
+    width: 100%;
+    left: 0;
+    margin-top: 5px;  
+    background: #fff;
+    border-bottom: solid 1px #ddd;
+    display: table;
+    height: 60px;
+}
+
+.tag{
+ display: inline-block;
+ background: #fff;
+ color: #333;
+ border: 1px #e2e2e2 solid;
+ padding: 6px 12px 6px 12px;
+ line-height: 1.2;
+ border-radius: 2px;
+ font-size: 11px;
+}
+
+body{
+  background: #f7f8f9;
+}
+
+.post-box{
+  background: #fff;
+  width: 60vw;
+  margin-bottom: 25px;
+  margin-top: 25px;
+  border-radius: 5px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.23), 0 3px 10px rgba(0,0,0,0.16);
+}
+
+
+.profile-box{
+  background: #fff;
+  margin-bottom: 25px;
+  margin-top: 25px;
+  border-radius: 5px;
+  border: #ddd 1px solid;
+}
+
+.multi{
+  display: none;
+}
+
+
+.preview {
+	border-radius: 5px;
+	border: 1px gray;
+	border-style: dashed;
+	width: 92%;
+	background-color:#f0f1f2;
+}
+
+li{
+  list-style: none;
+}
+
+a{
+  color: #333;
+  text-decoration: none;
+}
+
+.profile-box input, .profile-box button, .profile-box textarea{
+  border-radius: 5px;
+}

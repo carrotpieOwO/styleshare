@@ -1,0 +1,25 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /
+
+spring:
+  mvc:
+    view:
+      prefix: /WEB-INF/views/
+      suffix: .jsp
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/style?serverTimezone=UTC
+    username: style
+    password: 1234
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size:
+        1MB
+
+file:
+  path: C:/src/springboot/springboot-styleshare/media/
