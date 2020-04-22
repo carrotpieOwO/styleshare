@@ -5,7 +5,7 @@
  <!--랭킹-->
     <section>
       <div class="container post-box">
-                <form action="/style/write" method="post" enctype="multipart/form-data" class="row justify-content-center">
+                <form action="/style/write" method="post" id="frm" enctype="multipart/form-data" class="row justify-content-center">
       
         <div class="container pt-4">
         
@@ -36,6 +36,8 @@
            </div>
            <div class="row" id="selected-item">
            </div>
+           <input type="hidden" name="userId" value="${principal.id}">
+           <input type="hidden" id="product" name="product" >
            <div class="row mt-5 align-items-center ml-4">
             <h5><strong>코디 설명</strong></h5></div>
             <div class="row justify-content-center mt-2 px-4">
@@ -55,7 +57,7 @@
                 </div>
               </div>
               <div class="row mt-5">
-                <button type="submit" class="btn btn-lg btn-dark mx-auto mb-4">업로드</button>
+                <button type="button" id="write-submit" class="btn btn-lg btn-dark mx-auto mb-4">업로드</button>
               </div>
           </div>
                         </form>
@@ -216,27 +218,40 @@
 		$('#item').val('');
 	   });
 
+   var product= [];
    function modal(image, title, lprice, link){
 	   console.log(image);
 	   console.log(title);
 	   console.log(lprice);
 	   console.log(link);	
-	
+		var item = {
+				image:image,
+				title:title,
+				lprice:lprice,
+				link:link
+		}
+		product.push(item);
+		var productData = JSON.stringify(product);
+		$('#product').val(productData);
 		var itemlist ='<div class="row align-items-center">';
 		   itemlist += '<a href="'+link+'"><img src="'+image+'" width="150px" height="150px"></a>';
 		   itemlist += '<div class="align-items-center">';
 		   itemlist += '<p>'+title+'</p>';
 		   itemlist += '<p>'+lprice+'</p>';
 		  
-		   itemlist += '<input type="hidden" name="title[]" value="'+title+'">';
+		  /*  itemlist += '<input type="hidden" name="title[]" value="'+title+'">';
 		   itemlist += '<input type="hidden" name="image[]" value="'+image+'">';
 		   itemlist += '<input type="hidden" name="lprice[]" value="'+lprice+'">';
-		   itemlist += '<input type="hidden" name="link[]" value="'+link+'">';
+		   itemlist += '<input type="hidden" name="link[]" value="'+link+'">'; */
+		   //itemlist += '<input type="hidden" name="product[]" value="'+product+'">';
+		   
 		   itemlist += '</div></div>'
+
 
 	$('#selected-item').append(itemlist);
 		
 	 }
+	 
 
  //태그
 	$('#tag-btn').on('click', function() {
@@ -272,6 +287,33 @@
 			$('#id_'+i).remove();
 
 		}
+
+	 //submit	 
+	 window.onload=function(){
+		 document.getElementById('write-submit').onclick=function(){
+			document.getElementById('frm').submit();
+	//		 var productData = JSON.stringify(product);
+
+	/* 		 $.ajax({
+				type : 'POST',
+				url : '/style/product',
+				data :   JSON.stringify(product),
+				contentType : 'application/json; charset=utf-8',
+				dataType : 'json'
+			}).done(function(r) {
+				if (r.statusCode == 200) {
+					alert('패스워드 변경 완료');
+					location.href = '/';
+				} else {
+					alert('패스워드 변경 실패');
+				}
+			}).fail(function(r) {
+				console.log(r);
+				$('#current-check').html(r.responseJSON.password);
+			});*/ 
+			 } 
+	}
+	
 	 
    </script>
   </body>

@@ -12,14 +12,14 @@ import lombok.NoArgsConstructor;
 public class Tag {
 	private int id;
 	private String tag;
-	private int reviewId;
+	private int styleId;
 	private Timestamp createDate;
 	
 	@Builder
-	public Tag(String tag, int userId, int reviewId, Timestamp createDate) {
+	public Tag(String tag, int userId, int styleId, Timestamp createDate) {
 		super();
 		this.tag = tag;
-		this.reviewId = reviewId;
+		this.styleId = styleId;
 		this.createDate = createDate;
 	}
 

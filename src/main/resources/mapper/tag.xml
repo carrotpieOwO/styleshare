@@ -6,8 +6,8 @@
 
 	
 	<insert id="write">
-		insert into tag(tag, reviewId, createDate)
-		values(#{tag}, #{reviewId}, now())
+		insert into tag(tag, styleId, createDate)
+		values(#{tag}, #{styleId}, now())
 	</insert>
 	
 	

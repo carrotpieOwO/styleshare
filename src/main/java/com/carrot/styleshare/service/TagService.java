@@ -11,9 +11,10 @@ public class TagService {
 	private TagRepository tagRepository;
 
 	// 글쓰기
-	public int write(String tag, int reviewId) {
+	public int write(String tag, int styleId) {
 		try {
-			return tagRepository.write(tag, reviewId);
+			System.out.println("썼냐");
+			return tagRepository.write(tag, styleId);
 
 
 		} catch (Exception e) {

@@ -9,12 +9,12 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class RespWriteDto {
-	private int id;
+public class ReqProductDto {
+	//private int id;
 	private String image;
 	private String title;
 	private String link;
-	private int userId;
-	private int styleId;
-	private Timestamp createDate;
+	//private int userId;
+	//private int styleId;
+	//private Timestamp createDate;
 }
