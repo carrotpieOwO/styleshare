@@ -22,18 +22,25 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.carrot.styleshare.Utils;
-import com.carrot.styleshare.model.product.dto.ProductListDto;
+import com.carrot.styleshare.model.clipping.Clipping;
+import com.carrot.styleshare.model.follow.Follow;
+import com.carrot.styleshare.model.like.Likes;
 import com.carrot.styleshare.model.product.dto.ReqProductDto;
+import com.carrot.styleshare.model.style.dto.RespDetailDto;
 import com.carrot.styleshare.model.style.dto.RespWriteDto;
 import com.carrot.styleshare.model.tag.Tag;
 import com.carrot.styleshare.model.user.User;
+import com.carrot.styleshare.repository.ClippingRepository;
+import com.carrot.styleshare.repository.FollowRepository;
+import com.carrot.styleshare.repository.LikesRepository;
+import com.carrot.styleshare.service.CommentService;
+import com.carrot.styleshare.service.ProductService;
 import com.carrot.styleshare.service.StyleService;
 import com.carrot.styleshare.service.TagService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -52,6 +59,21 @@ public class StyleController {
 	
 	@Autowired
 	private TagService tagService;
+	
+	@Autowired
+	private ProductService productService;
+	
+	@Autowired
+	private CommentService commentService;
+	
+	@Autowired
+	private LikesRepository likesRepository;
+	
+	@Autowired
+	private ClippingRepository clippingRepository;
+	
+	@Autowired
+	private FollowRepository followRepository;
 	
 	// 화면이동
 	//메인화면
@@ -88,7 +110,50 @@ public class StyleController {
 		return response.getBody();
 	}
 	
-	int styleId;
+	//디테일
+		@GetMapping("/style/{styleId}")
+		public String detail(Model model, @PathVariable int styleId, @AuthenticationPrincipal User principal) {
+			RespDetailDto dto = styleService.detail(styleId);
+			
+			
+			if(principal != null) {
+				//좋아요 여부 체크
+				Likes like = likesRepository.findByUserIdAndstyleID(styleId, principal.getId());
+				if(like != null) {
+					dto.setLike(true);
+				}
+				
+				//북마크 추가 여부 체크
+				Clipping clipping = clippingRepository.findByUserIdAndstyleID(styleId, principal.getId());
+				if(clipping!=null) {
+					dto.setClipping(true);
+				}
+				
+				//팔로우 여부
+				Follow follow = followRepository.findByFromUserAndToUser(principal.getId(), dto.getUserId());
+				if(follow!=null) {
+					dto.setFollow(true);
+				}
+			}
+			
+			//좋아요 카운트
+			int likeCount = likesRepository.likeCount(styleId);
+			dto.setLikeCount(likeCount);
+				
+			//태그불러오기
+			List<String> tags = tagService.tags(styleId);
+			
+			//프로덕트 불러오기
+			List<ReqProductDto> products = productService.products(styleId);
+			
+			model.addAttribute("style",dto);
+			model.addAttribute("tags", tags);
+			model.addAttribute("products", products);
+			model.addAttribute("comments",commentService.list(styleId));
+
+			return "/style/detail";
+		}
+		
 	//글쓰기
 	@PostMapping("/style/write")
 	public @ResponseBody String write(@RequestParam MultipartFile image1, @RequestParam MultipartFile image2, @RequestParam MultipartFile image3, @RequestParam String content, 
@@ -98,51 +163,13 @@ public class StyleController {
 		System.out.println("글쓰기옴");
 		System.out.println(product);
 		
-		Gson gson = new Gson();
-		//toJson()==JSON.stringfy() , fromJson()==JSON.parse()
-        // responseData 를 UserJoinDto.class로 바꾸기
-		//ProductListDto productDto = gson.fromJson(product, ProductListDto.class);
-	//	System.out.println(productDto.getProducts());
-
-		Type collectionType = new TypeToken<Collection<ReqProductDto>>(){}.getType();
-		Collection<ReqProductDto> enums = gson.fromJson(product, collectionType);
-		System.out.println(enums);
-		
-		for(ReqProductDto pro:enums) {
-			System.out.println(pro.getTitle());
-		}
-		
-		
-	//	JSONArray jsonArray = (JSONArray)product;
-
-
-
-	//	ReqProductDto pro = new ObjectMapper().readValue(product, ReqProductDto.class);
-		//System.out.println(pro.getTitle());
-		
-//		JSONParser parser = new JSONParser();
-//		
-//
-//			JSONObject jsonObj = null;
-//			try {
-//				jsonObj = (JSONObject) parser.parse(product);
-//			} catch (ParseException e1) {
-//				// TODO Auto-generated catch block
-//				e1.printStackTrace();
-//			}
-//			System.out.println(jsonObj.get("title"));
-		
-		
-		//ReqProductDto pro = (ReqProductDto) obj;
-		
-		//System.out.println(pro);
-		
+	
+	//이미지파일 처리
 		UUID uuid = UUID.randomUUID();
 		
 		String uuidFilename1 = "";
 		String uuidFilename2 = "";
 		String uuidFilename3 = "";
-		//String uuidFilenames = null;
 		
 		List<MultipartFile> images = new ArrayList<>();
 		if(!image1.getOriginalFilename().equals("")) {
@@ -154,7 +181,8 @@ public class StyleController {
 		if(!image3.getOriginalFilename().equals("")) {
 			images.add(image3);	
 		}
-				
+		
+	//이미지 파일 저장
 		List<String> uuidFilenames = new ArrayList<>();
 
 		for(int i=0; i<images.size(); i++) {	
@@ -176,6 +204,7 @@ public class StyleController {
 		
 			System.out.println("파일이름사이즈: "+uuidFilenames.size());
 			
+	//스타일 insert
 		RespWriteDto dto = new RespWriteDto();
 		
 	if(uuidFilenames.size()==1) {
@@ -196,11 +225,12 @@ public class StyleController {
 		dto.setUserId(userId);
 		
 		int result = styleService.write(dto);
-		//모델 디티오에 담기
 		
-		styleId = dto.getId();
+	//styleId 가져오기
+		int styleId = dto.getId();
 		System.out.println("글쓰기스타일아이디:"+styleId);
 		
+		//태그 insert
 		List<String> tagList = Utils.tagParser(tags);
 	
 		for (String tag : tagList) {
@@ -211,13 +241,37 @@ public class StyleController {
 			tagService.write(tag, styleId);
 		}
 
+		//프로덕트 insert
+		Gson gson = new Gson();
 		
-				
+		Type collectionType = new TypeToken<Collection<ReqProductDto>>(){}.getType();
+		Collection<ReqProductDto> enums = gson.fromJson(product, collectionType);
+		System.out.println(enums);
+		
+		for(ReqProductDto pro:enums) {
+			System.out.println(pro.getTitle());
+			
+			if(pro.getTitle().contains(",")) {
+				int titleIdx = pro.getTitle().indexOf(",");
+				System.out.println(titleIdx);
+				String title = pro.getTitle().substring(0, titleIdx);
+				pro.setTitle(title);
+				System.out.println(title);
+			}
+			
+			
+			int brandIdx = pro.getTitle().indexOf("</b>");
+			String brand = pro.getTitle().substring(3, brandIdx);
+			
+			productService.write(pro.getImage(), pro.getTitle(), pro.getLink(), pro.getLprice(), styleId, userId, brand);
+		}
+			
+		//페이지 이동 처리
 		StringBuffer sb = new StringBuffer();
 		if(result==1) {
 			sb.append("<script>");
 			sb.append("alert('작성완료');");
-			sb.append("location.href='/user/mypage/"+principal.getUsername()+"';");
+			sb.append("location.href='/style/"+styleId+"';");
 			sb.append("</script>");
 			return sb.toString();
 			
@@ -228,18 +282,6 @@ public class StyleController {
 			sb.append("</script>");
 			return sb.toString();
 		}	
-	//	sb.append("ok");
-		//return sb.toString();
-	}
 	
-	@PostMapping("/style/product")
-	public @ResponseBody String product(@RequestBody List<ReqProductDto> dtos) {
-		System.out.println("프로덕트옴");
-		System.out.println(dtos);
-		System.out.println("프로덕트스타일아이디:"+styleId);
-
-		StringBuffer sb = new StringBuffer();
-		sb.append("ok");
-		return sb.toString();
 	}
 }

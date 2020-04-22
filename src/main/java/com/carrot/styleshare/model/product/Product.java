@@ -16,11 +16,12 @@ public class Product {
 	private int lprice;
 	private int userId;
 	private int styleId;
+	private String brand;
 	private Timestamp createDate;
 	
 	@Builder
 	public Product(String image, String link, String title, int lprice, 
-			int userId, int styleId, Timestamp createDate) {
+			int userId, int styleId, String brand, Timestamp createDate) {
 		super();
 		this.image = image;
 		this.link = link;
@@ -28,6 +29,7 @@ public class Product {
 		this.lprice = lprice;
 		this.userId = userId;
 		this.styleId = styleId;
+		this.brand = brand;
 		this.createDate = createDate;
 	}
 }

@@ -10,5 +10,9 @@
 		values(#{tag}, #{styleId}, now())
 	</insert>
 	
+	<!-- 태그불러오기 -->
+	<select id="findById" resultType="String">
+		select tag from tag where styleId=#{styleId}
+	</select>
 	
 </mapper>

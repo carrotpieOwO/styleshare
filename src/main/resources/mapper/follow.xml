@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.carrot.styleshare.repository.FollowRepository">
+
+	<insert id="follow" parameterType="com.carrot.styleshare.model.follow.dto.ReqFollowDto" >
+		<selectKey resultType="int" keyProperty="id" order="BEFORE">
+	        SELECT MAX(id)+1 FROM likes       
+	    </selectKey>  
+		insert into follow(fromUser, toUser, createDate) values(#{fromUserId}, #{toUserId}, now())
+	</insert>
+	
+	<delete id="unfollow">
+		delete from follow where id = #{id}
+	</delete>
+	
+	<select id="findByFromUserAndToUser" resultType="com.carrot.styleshare.model.follow.Follow">
+		select * from follow where fromUser=#{fromUserId} and toUser=#{toUserId};	
+	</select>
+	
+	
+	<select id="followerInfo" resultType="com.carrot.styleshare.model.follow.dto.ReqFollowInfoDto">
+		select f.fromUser, u.username, u.profile, u.introduction from follow f inner join user as u on f.fromUser = u.id where toUser=#{toUserId};
+	</select>
+	
+	<select id="followInfo" resultType="com.carrot.styleshare.model.follow.dto.ReqFollowInfoDto">
+		select f.toUser, u.username, u.profile, u.introduction from follow f inner join user as u on f.toUser = u.id where fromUser=#{fromUserId};
+	</select>
+	
+	<!-- 팔로워 수 -->
+	<select id="followerCount" resultType="int">
+		select count(*) from follow where toUser=#{toUserId};
+	</select> 
+	
+	<!-- 팔로잉수 -->
+	<select id="followCount" resultType="int">
+		select count(*) from follow where fromUser=#{fromUserId};
+	</select> 
+ 	
+ 	<!-- 팔로우 알림 -->
+	<select id="findByFollowMe" resultType="com.carrot.styleshare.model.follow.dto.ReqFollowMeDto">
+		select f.*, u.username, u.profile from follow f inner join user u on fromUser = u.id where toUser=#{userId};  
+	</select>
+	
+</mapper>

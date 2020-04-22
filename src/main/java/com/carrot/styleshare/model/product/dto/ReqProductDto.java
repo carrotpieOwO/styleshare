@@ -14,6 +14,8 @@ public class ReqProductDto {
 	private String image;
 	private String title;
 	private String link;
+	private int lprice;
+	private String brand;
 	//private int userId;
 	//private int styleId;
 	//private Timestamp createDate;

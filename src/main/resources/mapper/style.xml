@@ -9,4 +9,11 @@
 		values(#{image1}, #{image2}, #{image3}, #{content}, #{userId}, now())
 	</insert>
 	
+	<!-- 상세정보 보기 -->
+	<select id="findByStyleId"
+		resultType="com.carrot.styleshare.model.style.dto.RespDetailDto">
+		select s.*, u.username, u.profile from style s inner join user as u on s.userId = u.id where s.id=#{id};	
+	</select>
+	
+	
 </mapper>

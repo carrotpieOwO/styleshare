@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.carrot.styleshare.repository.ClippingRepository">
+
+	<insert id="clipping" parameterType="com.carrot.styleshare.model.clipping.dto.ReqClipDto">
+		<selectKey resultType="int" keyProperty="id" order="BEFORE">
+	        SELECT MAX(id)+1 FROM likes       
+	    </selectKey>
+		insert into clipping(styleId, userId, createDate)
+		values(#{styleId}, #{userId}, now())
+	</insert>
+	
+	<delete id="unClipping">
+		delete from clipping where id = #{id}
+	</delete>
+	
+	<select id="findByUserIdAndstyleID" resultType="com.carrot.styleshare.model.clipping.Clipping">
+		select * from clipping where styleId=#{styleId} and userId=#{userId};	
+	</select>
+	
+	<select id="myClippingCount" resultType="int">
+		select count(*) from clipping where userId=#{userId};
+	</select>
+	
+	<select id="clippingCount" resultType="int">
+		select count(*) from clipping where styleId=#{styleId};
+	</select>
+	
+	<!-- 북마크 모아보기 리스트 -->
+	<select id="findByUserId" resultType="com.carrot.styleshare.model.clipping.Clipping">
+		select * from clipping where userId=#{userId} order by createDate desc;
+	</select>
+ 	 
+</mapper>

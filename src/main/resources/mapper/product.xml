@@ -6,9 +6,13 @@
 
 	
 	<insert id="write">
-		insert into product(image, title, link, lprice, styleId, userId, createDate)
-		values(#{image}, #{title}, #{link}, #{lprice}, #{styleId}, #{userId}, now())
+		insert into product(image, title, link, lprice, styleId, userId, brand, createDate)
+		values(#{image}, #{title}, #{link}, #{lprice}, #{styleId}, #{userId}, #{brand}, now())
 	</insert>
 	
+	<!-- 불러오기 -->
+	<select id="findById" resultType="com.carrot.styleshare.model.product.dto.ReqProductDto">
+		select * from product where styleId=#{styleId}
+	</select>
 	
 </mapper>

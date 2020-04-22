@@ -57,7 +57,7 @@
                 </div>
               </div>
               <div class="row mt-5">
-                <button type="button" id="write-submit" class="btn btn-lg btn-dark mx-auto mb-4">업로드</button>
+                <button type="submit" id="write-submit" class="btn btn-lg btn-dark mx-auto mb-4">업로드</button>
               </div>
           </div>
                         </form>
@@ -289,30 +289,12 @@
 		}
 
 	 //submit	 
-	 window.onload=function(){
+	/*  window.onload=function(){
 		 document.getElementById('write-submit').onclick=function(){
 			document.getElementById('frm').submit();
-	//		 var productData = JSON.stringify(product);
-
-	/* 		 $.ajax({
-				type : 'POST',
-				url : '/style/product',
-				data :   JSON.stringify(product),
-				contentType : 'application/json; charset=utf-8',
-				dataType : 'json'
-			}).done(function(r) {
-				if (r.statusCode == 200) {
-					alert('패스워드 변경 완료');
-					location.href = '/';
-				} else {
-					alert('패스워드 변경 실패');
-				}
-			}).fail(function(r) {
-				console.log(r);
-				$('#current-check').html(r.responseJSON.password);
-			});*/ 
+	
 			 } 
-	}
+	} */
 	
 	 
    </script>

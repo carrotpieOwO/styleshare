@@ -1,5 +1,7 @@
 package com.carrot.styleshare.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,5 +24,10 @@ public class TagService {
 			throw new RuntimeException();
 
 		}
+	}
+	
+	//불러오기
+	public List<String> tags(int styleId){
+		return tagRepository.findById(styleId);
 	}
 }

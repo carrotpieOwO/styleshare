@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.carrot.styleshare.repository.LikesRepository">
+
+
+	<insert id="like" parameterType="com.carrot.styleshare.model.like.dto.ReqLikeDto">
+		<selectKey resultType="int" keyProperty="id" order="BEFORE">
+	        SELECT MAX(id)+1 FROM likes       
+	    </selectKey>  
+		insert into likes(styleId, userId, createDate)
+		values(#{styleId}, #{userId}, now())
+	</insert>
+	
+	<delete id="dislike">
+		delete from likes where id = #{id}
+	</delete>
+	
+	<select id="findByUserIdAndstyleID" resultType="com.carrot.styleshare.model.like.Likes">
+		select * from likes where styleId=#{styleId} and userId=#{userId};	
+	</select>
+	
+	<select id="likeCount" resultType="int">
+		select count(*) from likes where styleId=#{styleId};
+	</select>
+	 
+	<select id="likeList" resultType="com.carrot.styleshare.model.like.dto.ReqLikeInfoDto">
+		select l.id, l.userId, u.username, u.profile from likes l inner join user u on l.userId = u.id where styleId = #{styleId} order by l.id	
+	</select>
+	
+	<!-- 좋아요 알림 -->
+ 	<!-- <select id="findByLikeMe" resultType="com.carrot.nyam.model.like.dto.ReqLikeMeDto">
+		select l.*, u.username, u.profile, r.image1, r.id styleId
+		from likes l inner join user u on l.userId = u.id
+		inner join style r on l.styleId = r.id 
+		where l.styleId in 
+		(select id from style where r.userId = #{userId}) order by id desc 
+	</select> -->
+ 	
+	
+</mapper>
