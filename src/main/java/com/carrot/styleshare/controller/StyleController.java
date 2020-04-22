@@ -259,11 +259,14 @@ public class StyleController {
 				System.out.println(title);
 			}
 			
+			if(pro.getTitle().contains("<b>")) {
+				int brandIdx = pro.getTitle().indexOf("</b>");
+				String brand = pro.getTitle().substring(3, brandIdx);
+				pro.setBrand(brand);
+			}
 			
-			int brandIdx = pro.getTitle().indexOf("</b>");
-			String brand = pro.getTitle().substring(3, brandIdx);
 			
-			productService.write(pro.getImage(), pro.getTitle(), pro.getLink(), pro.getLprice(), styleId, userId, brand);
+			productService.write(pro.getImage(), pro.getTitle(), pro.getLink(), pro.getLprice(), styleId, userId, pro.getBrand());
 		}
 			
 		//페이지 이동 처리

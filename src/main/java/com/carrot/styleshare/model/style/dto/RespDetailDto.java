@@ -18,6 +18,9 @@ public class RespDetailDto {
 	private int userId;
 	private String username;
 	private String profile;
+	private int height;
+	private String gender;
+	private String age;
 	private Timestamp createDate;
 	private boolean like;
 	private int likeCount;

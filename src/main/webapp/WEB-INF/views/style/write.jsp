@@ -34,7 +34,7 @@
             <i class="fas fa-plus-circle"></i> 아이템 추가
             </button>			     
            </div>
-           <div class="row" id="selected-item">
+           <div class="row ml-4 mr-4 mt-3" id="selected-item">
            </div>
            <input type="hidden" name="userId" value="${principal.id}">
            <input type="hidden" id="product" name="product" >
@@ -231,23 +231,17 @@
 				link:link
 		}
 		product.push(item);
-		var productData = JSON.stringify(product);
+		var productData = JSON.stringify(product); 
 		$('#product').val(productData);
-		var itemlist ='<div class="row align-items-center">';
-		   itemlist += '<a href="'+link+'"><img src="'+image+'" width="150px" height="150px"></a>';
-		   itemlist += '<div class="align-items-center">';
-		   itemlist += '<p>'+title+'</p>';
-		   itemlist += '<p>'+lprice+'</p>';
-		  
-		  /*  itemlist += '<input type="hidden" name="title[]" value="'+title+'">';
-		   itemlist += '<input type="hidden" name="image[]" value="'+image+'">';
-		   itemlist += '<input type="hidden" name="lprice[]" value="'+lprice+'">';
-		   itemlist += '<input type="hidden" name="link[]" value="'+link+'">'; */
-		   //itemlist += '<input type="hidden" name="product[]" value="'+product+'">';
-		   
-		   itemlist += '</div></div>'
 
-
+		//삭제버튼 온클릭: 몇번째 배열인지 넘겨줘서 그 배열 삭제해서 다시 인풋에 집어넣기.
+		var itemlist = '<table class="table">';
+			itemlist += '<tbody>'
+			itemlist += '<tr><td style="width:150px;"><img src="'+image+'" width="150px" height="150px"></td>';
+			itemlist += '<td><p>'+title+'</p><br/><mark><i class="fas fa-tag"></i> '+lprice+'원</mark><br/>';
+		    itemlist += '<button type="button" class="btn btn-danger float-right"><i class="fas fa-trash-alt"></i> 삭제</button></td>'
+		    itemlist += '</tbody></table>';
+	
 	$('#selected-item').append(itemlist);
 		
 	 }
@@ -259,7 +253,7 @@
 		var i = $('.tag').length;
 		console.log($('.tag').length);
 		var str ='<div id="id_'+i+'" class="tag mb-1 mr-1">'
-		str += '<p id="tag_'+i+'" class="tagArr ">';
+		str += '<p id="tag_'+i+'" class="tagArr">';
 		str += '#'+$('#tag-input').val()+'</p>';
 		str += '<a onclick="deleteTag('+i+')" class="ml-2 tagDel"><strong>X</strong></a></div>';
 

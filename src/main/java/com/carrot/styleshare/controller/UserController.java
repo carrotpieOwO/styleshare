@@ -201,8 +201,9 @@ public class UserController {
 			else{
 				uuidFilename= uuid+"_"+profile.getOriginalFilename();
 			}
+			System.out.println(uuidFilename);
 			
-			if(!uuidFilename.equals("") && !uuidFilename.equals(principal.getProfile())) {
+			if(uuidFilename != null && !uuidFilename.equals("") && !uuidFilename.equals(principal.getProfile())) {
 				Path filePath = Paths.get(fileRealPath+uuidFilename);
 				try {
 					Files.write(filePath, profile.getBytes());

@@ -7,7 +7,7 @@
  <section>
     <div id="user_header_mini" class="stickyUi ">
       <div class="container" style="width: 80%;" >
-        <div class="row align-items-center mt-2" style="height: 70px;">
+        <div class="row align-items-center" style="height: 70px;">
           <div class="profile">
             <a href="/user/mypage/${style.username}"><img src="/media/${style.profile}" 
               width="48" height="48" class="border rounded-circle"  onError="javascript:this.src='/img/unknown.png'"></a>
@@ -15,6 +15,7 @@
           <!-- /.avatar --></div>
           <div class="ml-2">
           <p class="my-auto">@${style.username}</p>
+           <p class="my-auto" style="font-size: 11px;">${style.height}cm | ${style.gender} | ${style.age}</p>
         </div> 
         <c:choose> 
 	        <c:when test="${style.username==principal.username}">
@@ -277,16 +278,20 @@
                </div>
 				</div>
                   </c:forEach>
+                  
+                  <!-- 브랜드 -->
+   			                              
                    <div class="pt-3 ml-3 row">
 		       	  <c:forEach var="product" items="${products}">
 		         <form class="mr-2" action="/search" method="get">
+		          <c:if test="${!empty product.brand}"> 
 		        	<input type="hidden" name="searchMenu" value="브랜드"/>
 		        	<input type="hidden" name="searchContent" value="${product.brand}"/>
 		        	<button class="btn btn-outline-dark text-outline-light" type="submit">${product.brand}</button>
-		        	</form>
+		       		</c:if>
+		       		</form>
 		          </c:forEach>
 		        </div>	
-                  
                 </div>
               </div>
     

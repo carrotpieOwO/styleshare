@@ -2,19 +2,19 @@
     pageEncoding="UTF-8"%>
  <!-- The Modal -->
 	<div class="modal fade" id="itemSearch">
-	  <div class="modal-dialog modal-lg">
+	  <div class="modal-dialog modal-lg modal-dialog-scrollable">
 	    <div class="modal-content">
 	
 	      <!-- Modal Header -->
 	      <div class="modal-header">
-	        <h4 class="modal-title">Modal Heading</h4>
+	        <h4 class="modal-title"><i class="fas fa-search"></i> 아이템 찾기</h4>
 	        <button type="button" class="close" data-dismiss="modal">&times;</button>
 	      </div>
 	
 	      <!-- Modal body -->
 	      <div class="modal-body">
-	      <div class="input-group mb-3">
-			  <input type="text" class="form-control" id="item">
+	      <div class="input-group mb-3 justify-content-center">
+			  <input type="text" class="form-control col-6" id="item">
 			  <div class="input-group-append">
 			    <button class="btn btn-dark" type="button" id="item-search" >찾기</button>
 			  </div>
@@ -53,15 +53,23 @@
 	}).done(function(r) {
 		if (r.length != 0) {
 			console.log(r);
-			var res ='<div class="row justify-content-center ">';
+			var res = '<table class="table">';
+			res += '<tbody>'
 			for(i=0; i<r.items.length; i++){
 				console.log(r.items.length);
-
-				res +=
-					'<a onclick="modal(`'+r.items[i].image+'`,`'+r.items[i].title+'`,'+r.items[i].lprice+',`'+r.items[i].link+'`)" data-dismiss="modal"><img src="'+r.items[i].image+'"class="mx-1 my-1" width="150px" height="150px"></a><br/>'; 
-				res += '<p>'+r.items[i].title+'</p>';
-			}
-			res+='</div>'
+				res += '<tr><td style="width:150px;"><a onclick="modal(`'+r.items[i].image+'`,`'+r.items[i].title+'`,'+r.items[i].lprice+',`'+r.items[i].link+'`)" data-dismiss="modal">'
+				res += '<img src="'+r.items[i].image+'"class="mx-1 my-1" width="150px" height="150px"></td>';
+				res += '<td><p>'+r.items[i].title+'</p><br/><mark><i class="fas fa-tag"></i> '+r.items[i].lprice+'원</mark><br/>';
+			   // itemlist += '<button class="btn btn-danger float-right"><i class="fas fa-trash-alt"></i> 삭제</button></td>'
+			   // itemlist += '</tbody></table>';
+			    
+				// res +='<div class="row align-items-center">';
+				//res +='<div><a onclick="modal(`'+r.items[i].image+'`,`'+r.items[i].title+'`,'+r.items[i].lprice+',`'+r.items[i].link+'`)" data-dismiss="modal">'
+				//res +='<img src="'+r.items[i].image+'"class="mx-1 my-1" width="150px" height="150px"></a></div>'; 
+				//res += '<div style="word-break:break-all"><p class="float-right">'+r.items[i].title+'</p></div>';
+				//res+='</div>';
+				}
+			res += '</tbody></table>';
 			$('#item-list').append(res);
 			
 				
