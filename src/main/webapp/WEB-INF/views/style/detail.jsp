@@ -15,7 +15,17 @@
           <!-- /.avatar --></div>
           <div class="ml-2">
           <p class="my-auto">@${style.username}</p>
-           <p class="my-auto" style="font-size: 11px;">${style.height}cm | ${style.gender} | ${style.age}</p>
+           <p class="my-auto" style="font-size: 11px;">
+           <c:if test="${not empty style.height}">
+           ${style.height}cm 
+           </c:if>
+           <c:if test="${not empty style.gender}">
+           | ${style.gender} 
+           </c:if>
+           <c:if test="${not empty style.age}">
+           | ${style.age}
+           </c:if>
+           </p>
         </div> 
         <c:choose> 
 	        <c:when test="${style.username==principal.username}">

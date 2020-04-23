@@ -16,4 +16,14 @@
 	</select>
 	
 	
+	<!-- 수정하기 -->
+	<update id="update">
+		update style set content=#{content} where id=#{id}
+	</update> 
+	
+	<!-- 삭제하기 -->
+	<delete id="delete">
+		delete from style where id=#{id}
+	</delete>
+	
 </mapper>

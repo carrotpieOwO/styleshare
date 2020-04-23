@@ -219,7 +219,10 @@
 	   });
 
    var product= [];
-   function modal(image, title, lprice, link){
+   var index= 0; 
+	
+	
+   function modal(image, title, lprice, link, productId){
 	   console.log(image);
 	   console.log(title);
 	   console.log(lprice);
@@ -228,25 +231,47 @@
 				image:image,
 				title:title,
 				lprice:lprice,
-				link:link
+				link:link,
+				productId:productId
 		}
+		
+		console.log(typeof(productId));
 		product.push(item);
 		var productData = JSON.stringify(product); 
 		$('#product').val(productData);
-
-		//삭제버튼 온클릭: 몇번째 배열인지 넘겨줘서 그 배열 삭제해서 다시 인풋에 집어넣기.
-		var itemlist = '<table class="table">';
+			
+		var itemlist = '<table id="table_'+index+'" class="table">';
 			itemlist += '<tbody>'
 			itemlist += '<tr><td style="width:150px;"><img src="'+image+'" width="150px" height="150px"></td>';
-			itemlist += '<td><p>'+title+'</p><br/><mark><i class="fas fa-tag"></i> '+lprice+'원</mark><br/>';
-		    itemlist += '<button type="button" class="btn btn-danger float-right"><i class="fas fa-trash-alt"></i> 삭제</button></td>'
+			itemlist += '<td><p class="title">'+title+'</p><br/><mark><i class="fas fa-tag"></i> '+lprice+'원</mark><br/>';
+		    itemlist += '<a onclick="deleteItem('+index+','+productId+')" class="btn btn-danger float-right text-white"><i class="fas fa-trash-alt"></i> 삭제</a></td>'
 		    itemlist += '</tbody></table>';
-	
+
+		index++;
+
+			
 	$('#selected-item').append(itemlist);
 		
 	 }
 	 
+	function deleteItem(index, productId){
+	
+		Array.prototype.findIndexBy = function(key, value) {
+		    return this.findIndex(item => item[key] === value)
+		}
 
+		var remove_index = product.findIndexBy('productId', productId);
+		console.log(remove_index);
+		
+		product.splice(remove_index,1);
+		console.log(product);
+
+		$('#table_'+index).remove();
+		productData = JSON.stringify(product); 
+		$('#product').val(productData);
+	}
+
+	
  //태그
 	$('#tag-btn').on('click', function() {
 
@@ -281,16 +306,7 @@
 			$('#id_'+i).remove();
 
 		}
-
-	 //submit	 
-	/*  window.onload=function(){
-		 document.getElementById('write-submit').onclick=function(){
-			document.getElementById('frm').submit();
-	
-			 } 
-	} */
-	
-	 
+		
    </script>
   </body>
 </html>

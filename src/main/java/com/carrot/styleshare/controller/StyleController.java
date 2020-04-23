@@ -94,7 +94,7 @@ public class StyleController {
 	@PostMapping("/style/{item}")
 	public  @ResponseBody String getNaverSearch(@PathVariable String item, Model model) {
 		
-		 String url = "https://openapi.naver.com/v1/search/shop.json?query="+item+"&display=10&start=1";
+		 String url = "https://openapi.naver.com/v1/search/shop.json?query="+item+"&display=5&start=1";
 	        RestTemplate restTemplate = new RestTemplate();
 
 	        HttpHeaders header = new HttpHeaders();
@@ -109,6 +109,26 @@ public class StyleController {
 
 		return response.getBody();
 	}
+	
+	//글쓰기 - 아이템 검색
+		@PostMapping("/style/{item}/{startNum}")
+		public  @ResponseBody String getNaverSearchNext(@PathVariable String item, @PathVariable int startNum, Model model) {
+			
+			 String url = "https://openapi.naver.com/v1/search/shop.json?query="+item+"&display=5&start="+startNum;
+		        RestTemplate restTemplate = new RestTemplate();
+
+		        HttpHeaders header = new HttpHeaders();
+		        header.add(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_UTF8_VALUE);
+		        header.set("X-Naver-Client-Id","Z67LEXnLFW6Gxln_n7HU");
+		        header.set("X-Naver-Client-Secret", "C9KR0USkp9");
+		        
+
+		        HttpEntity entity = new HttpEntity(header);
+
+		        HttpEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
+
+			return response.getBody();
+		}
 	
 	//디테일
 		@GetMapping("/style/{styleId}")
@@ -152,6 +172,18 @@ public class StyleController {
 			model.addAttribute("comments",commentService.list(styleId));
 
 			return "/style/detail";
+		}
+	
+	//글수정
+		@GetMapping("/style/modify/{id}")
+		public String modify(Model model, @PathVariable int id, @AuthenticationPrincipal User principal) {
+			RespDetailDto dto = styleService.detail(id);
+			List<String> tags = tagService.tags(id);
+			List<ReqProductDto> products = productService.products(id);
+			model.addAttribute("style", dto);
+			model.addAttribute("tags", tags);
+			model.addAttribute("products",products);
+			return "/style/modify";
 		}
 		
 	//글쓰기
