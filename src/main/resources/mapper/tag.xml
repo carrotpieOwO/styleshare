@@ -15,4 +15,9 @@
 		select tag from tag where styleId=#{styleId}
 	</select>
 	
+	<!-- 태그 삭제 -->
+	<delete id="delete">
+		delete from tag where styleId = #{styleId}
+	</delete>
+	
 </mapper>

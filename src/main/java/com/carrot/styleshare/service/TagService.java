@@ -30,4 +30,9 @@ public class TagService {
 	public List<String> tags(int styleId){
 		return tagRepository.findById(styleId);
 	}
+	
+	//태그 삭제
+		public int delete(int styleId) {
+			return tagRepository.delete(styleId);
+		}
 }

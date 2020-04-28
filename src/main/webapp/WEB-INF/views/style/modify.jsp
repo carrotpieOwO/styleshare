@@ -48,13 +48,15 @@
            <div class="row ml-4 mr-4 mt-3" id="selected-item">
            		<c:if test="${not empty products}">
         			<c:forEach var="product" varStatus="status" items="${products}">
-           			<table id="table_${status.index}" class="table">
+           			<table id="table_${status.index}" class="table selected-items">
 						<tbody>
 							<tr><td style="width:150px;">
 								<img src="${product.image}" width="150px" height="150px"></td>
 							<td><p class="title">${product.title}</p><br/>
 								<mark><i class="fas fa-tag"></i>${product.lprice}원</mark><br/>
-						    	<a onclick="deleteItem(${status.index},'+productId+')" class="btn btn-danger float-right text-white">
+						    	<a onclick="deleteItem(${status.index},${product.productId})" class="btn btn-danger float-right text-white">
+						    	<input type="hidden" id="link" value="${product.link}"/>
+						    	<input type="hidden" id="productId" value="${product.productId}"/>
 						    	<i class="fas fa-trash-alt"></i> 삭제</a></td>
 						 </tbody>
 					</table>
@@ -63,7 +65,6 @@
            </div>
            
            <input type="hidden" name="userId" value="${principal.id}">
-           <input type="hidden" id="product" name="product" value="${products}">
            <div class="row mt-5 align-items-center ml-4">
            
            <!-- 컨텐트 -->
@@ -110,9 +111,7 @@ console.log($('#product').val());
 		$('#item').val('');
 	   });
 
-   var product= [];
    var index= 0; 
-	
 	
    function modal(image, title, lprice, link, productId){
 	   console.log(image);
@@ -126,17 +125,14 @@ console.log($('#product').val());
 				link:link,
 				productId: productId
 		}
-		
-		
-		product.push(item);
-		var productData = JSON.stringify(product); 
-		$('#product').val(productData);
-			
-		var itemlist = '<table id="table_'+index+'" class="table">';
+	
+		var itemlist = '<table id="table_'+index+'" class="table selected-items">';
 			itemlist += '<tbody>'
 			itemlist += '<tr><td style="width:150px;"><img src="'+image+'" width="150px" height="150px"></td>';
 			itemlist += '<td><p class="title">'+title+'</p><br/><mark><i class="fas fa-tag"></i> '+lprice+'원</mark><br/>';
 		    itemlist += '<a onclick="deleteItem('+index+','+productId+')" class="btn btn-danger float-right text-white"><i class="fas fa-trash-alt"></i> 삭제</a></td>'
+		    itemlist += '<input type="hidden" id="link" value="'+link+'">';
+		    itemlist += '<input type="hidden" id="productId" value="'+productId+'">';
 		    itemlist += '</tbody></table>';
 
 		index++;
@@ -147,20 +143,12 @@ console.log($('#product').val());
 	 }
 	 
 	function deleteItem(index, productId){
-	
 		Array.prototype.findIndexBy = function(key, value) {
 		    return this.findIndex(item => item[key] === value)
 		}
-
-		var remove_index = product.findIndexBy('productId', productId);
-		console.log(remove_index);
 		
-		product.splice(remove_index,1);
-		console.log(product);
-
 		$('#table_'+index).remove();
-		productData = JSON.stringify(product); 
-		$('#product').val(productData);
+		
 	}
 
 	
@@ -201,12 +189,30 @@ console.log($('#product').val());
 
 	//업데이트
 		$('#update-submit').on('click', function() {
-		var data = {
+
+		var selected_items = [];
+		for(var i=0; i<$('.selected-items').length; i++){
+			var items = {
+					image: $('.selected-items:eq('+i+')').find('img').attr('src'),
+					title: $('.selected-items:eq('+i+')').find('.title').html(),
+					lprice: $('.selected-items:eq('+i+')').find('mark').text().replace('원',''),
+					link: $('.selected-items:eq('+i+')').find('#link').val(),
+					productId: $('.selected-items:eq('+i+')').find('#productId').val()
+			}
+			
+			selected_items.push(items);
+		}
+		
+		 var data = {
 			id : ${style.id},
+			products : selected_items, 
 			content : $('#review').val(),
 			tag :$('#tag-submit').val() 
-		};
-		$.ajax({
+		}; 
+
+		console.log(data);
+			
+		 $.ajax({
 			type : 'PUT',
 			url : '/style/modify',
 			data : JSON.stringify(data), //만약 get 타입으로 데이터 보내면 'username=ssar' 이런식으로 쿼리스트링처럼 해서 날려야함,
@@ -222,7 +228,7 @@ console.log($('#product').val());
 		}).fail(function(r) {
 			alert('회원가입 실패');
 			
-		});
+		}); 
 	});
 		
    </script>

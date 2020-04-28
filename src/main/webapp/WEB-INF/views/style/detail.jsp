@@ -455,7 +455,24 @@
 			
 			}
 
-
+		//게시글 삭제
+		$('#post-delete-submit').on('click', function() {
+			var id= $('#post-delete-submit').val();
+			$.ajax({
+				type : 'DELETE',
+				url : '/style/delete/'+id,
+				dataType : 'json' //응답 데이터, 데이터 주고받을땐 무조건 스트링으로 인식해서 이렇게 해줘야 제이슨으로 인식함
+			}).done(function(r) { //그래서 여기서 받을 때 잭슨이 제이슨을 자바스크립트로 바꿔줘서 자바스크립트 오브젝트화됨
+				if (r.statusCode == 200) {
+					alert('글이 삭제 되었습니다.');
+					location.href = '/';
+				}else{
+					alert('글 삭제 실패');
+				}
+			}).fail(function(r) {
+				alert('글 삭제 실패');
+			});
+		});
 		
   </script>
   <%@include file="../modal/likeModal.jsp"%>

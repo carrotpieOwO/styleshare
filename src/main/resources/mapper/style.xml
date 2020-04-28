@@ -26,4 +26,18 @@
 		delete from style where id=#{id}
 	</delete>
 	
+	<!-- 전체피드 -->
+	<select id="findAll" resultType="com.carrot.styleshare.model.style.dto.ReqAllDto">
+		select s.id, s.image1, s.image2, u.username, u.profile 
+		from style s inner join user u on s.userId = u.id order by s.id desc limit 0, 9
+	</select>
+	
+	<select id="scrollDown" resultType="com.carrot.styleshare.model.style.dto.ReqAllDto">
+		<![CDATA[
+		select s.id, s.image1, s.image2, u.username, u.profile 
+		from style s inner join user u on s.userId = u.id 
+		where s.id < #{id1} and s.id > #{id2}-10 order by s.id desc
+		]]>
+	</select>
+	
 </mapper>

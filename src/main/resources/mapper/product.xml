@@ -6,8 +6,8 @@
 
 	
 	<insert id="write">
-		insert into product(image, title, link, lprice, styleId, userId, brand, createDate)
-		values(#{image}, #{title}, #{link}, #{lprice}, #{styleId}, #{userId}, #{brand}, now())
+		insert into product(image, title, link, lprice, styleId, userId, brand, productId, createDate)
+		values(#{image}, #{title}, #{link}, #{lprice}, #{styleId}, #{userId}, #{brand}, #{productId}, now())
 	</insert>
 	
 	<!-- 불러오기 -->
@@ -15,4 +15,8 @@
 		select * from product where styleId=#{styleId}
 	</select>
 	
+	<!-- 삭제 -->
+	<delete id="delete">
+		delete from product where styleId = #{styleId}
+	</delete>
 </mapper>
