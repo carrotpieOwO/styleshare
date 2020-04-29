@@ -1,5 +1,7 @@
 package com.carrot.styleshare.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -9,6 +11,7 @@ import com.carrot.styleshare.model.ReturnCode;
 import com.carrot.styleshare.model.user.User;
 import com.carrot.styleshare.model.user.dto.ReqJoinDto;
 import com.carrot.styleshare.model.user.dto.ReqPwdUpdateDto;
+import com.carrot.styleshare.model.user.dto.RespListDto;
 import com.carrot.styleshare.repository.UserRepository;
 
 @Service
@@ -95,5 +98,16 @@ public class UserService {
 			}
 			return ReturnCode.무반응;
 			
+		}
+		
+	//마이페이지 리스트
+	public List<RespListDto> mypageList(String username, int userId){
+		return userRepository.mypageList(username, userId);
+	}
+	
+	//무한스크롤
+	//마이페이지 리스트
+		public List<RespListDto> scrollDownMypage(int id1, int id2, String username){
+			return userRepository.scrollDownMypage(id1, id2, username);
 		}
 }

@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -16,6 +18,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,12 +32,18 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.carrot.styleshare.model.RespCM;
 import com.carrot.styleshare.model.ReturnCode;
+import com.carrot.styleshare.model.follow.dto.ReqFollowInfoDto;
+import com.carrot.styleshare.model.style.dto.ReqAllDto;
 import com.carrot.styleshare.model.user.User;
 import com.carrot.styleshare.model.user.dto.ReqEmailCheckDto;
 import com.carrot.styleshare.model.user.dto.ReqIdCheckDto;
 import com.carrot.styleshare.model.user.dto.ReqJoinDto;
-import com.carrot.styleshare.model.user.dto.ReqPwdUpdateDto;
 import com.carrot.styleshare.model.user.dto.ReqPwdCheckDto;
+import com.carrot.styleshare.model.user.dto.ReqPwdUpdateDto;
+import com.carrot.styleshare.model.user.dto.RespListDto;
+import com.carrot.styleshare.repository.ClippingRepository;
+import com.carrot.styleshare.repository.LikesRepository;
+import com.carrot.styleshare.repository.UserRepository;
 import com.carrot.styleshare.service.UserService;
 
 @Controller
@@ -45,6 +54,15 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 
+	@Autowired
+	private UserRepository userRepository;
+	
+	@Autowired
+	private LikesRepository likesRepository;
+	
+	@Autowired
+	private ClippingRepository clippingRepository;
+	
 	//화면이동
 	@GetMapping("user/join")
 	public String join() {
@@ -69,6 +87,67 @@ public class UserController {
 		return "/user/password";
 	}
 
+	//마이페이지
+
+	  @GetMapping("user/mypage/{username}")
+		public String mypage(Model model, @PathVariable String username, @AuthenticationPrincipal User principal) {
+		  User user = userRepository.authentication(username);
+
+		  List<RespListDto> dtos = userService.mypageList(username, user.getId());
+		  List<String> locations = new ArrayList<>();
+		  ReqFollowInfoDto followInfo = new ReqFollowInfoDto();
+		 		  
+		  for(RespListDto dto : dtos) {
+			  int likeCount = likesRepository.likeCount(dto.getId());
+			  dto.setLikeCount(likeCount);
+			  int myClippingCount = clippingRepository.myClippingCount(user.getId());
+			  dto.setMyClippingCount(myClippingCount);
+			  int clippingCount = clippingRepository.clippingCount(dto.getId());
+			  dto.setClippingCount(clippingCount);
+		  }
+//		  	if(principal!=null) {
+//		  		Follow follow = followRepository.findByFromUserAndToUser(principal.getId(),user.getId());
+//		  		if(follow != null) {
+//					  followInfo.setFromUser(principal.getId());
+//					  followInfo.setToUser(user.getId());
+//					  followInfo.setFollow(true);
+//					  
+//				  }
+//		  	}
+//			  
+//			  int followCount = followRepository.followCount(user.getId());
+//			  int followerCount = followRepository.followerCount(user.getId());
+//			  followInfo.setFollowCount(followCount);
+//			  followInfo.setFollowerCount(followerCount);
+//			  
+//			System.out.println(followInfo);
+		    System.out.println(dtos);
+		  	model.addAttribute("user", user);
+			model.addAttribute("styles", dtos);
+//			model.addAttribute("followInfo",followInfo);
+			
+			return "/user/mypage";
+		}
+
+	//무한스크롤
+		@GetMapping("/mypage/scrollDown/{bno}/{username}")
+		public @ResponseBody List<RespListDto> scrollDown(@PathVariable int bno, @PathVariable String username){
+			//유저랭킹
+			System.out.println(username);
+			System.out.println("아이디값 "+bno);
+			List<RespListDto> feeds = userService.scrollDownMypage(bno, bno, username);
+			System.out.println(feeds);
+
+			for(int i=0; i<feeds.size(); i++) {
+			 int likeCount = likesRepository.likeCount(feeds.get(i).getId());
+			  feeds.get(i).setLikeCount(likeCount);
+			  int clippingCount = clippingRepository.clippingCount(feeds.get(i).getId());
+			  feeds.get(i).setClippingCount(clippingCount); 
+			}
+			
+			return feeds;
+		}
+		
 	//ID 유효성 검사
 		@PostMapping("user/username")
 		public ResponseEntity<?> idCheck(@Valid @RequestBody ReqIdCheckDto dto, BindingResult bindingResult) {
@@ -230,5 +309,6 @@ public class UserController {
 			}		
 
 		}
+	
 
 }

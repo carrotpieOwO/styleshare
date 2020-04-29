@@ -139,10 +139,7 @@
         $(this).find('.style-photo').css('filter','');
         $(this).find('.style-info').css('visibility', 'hidden');
       });
-       
-      $('#search').focus(function(){
-        $('#search').attr('placeholder','');
-      });
+    
 
 
       $(document).ready(function(){

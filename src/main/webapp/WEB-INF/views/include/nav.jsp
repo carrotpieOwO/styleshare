@@ -95,3 +95,9 @@
             </div>
         </nav>
   </section>
+  
+  <script>
+  $('#search').focus(function(){
+	    $('#search').attr('placeholder','');
+	  });
+  </script>
