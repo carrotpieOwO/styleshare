@@ -82,6 +82,7 @@
             <div id="gender" class="dropdown-menu">
               <a class="dropdown-item" name="gender" value="men">남자</a>
               <a class="dropdown-item" name="gender" value="women">여자</a>
+              <a class="dropdown-item" name="gender" value="kids">키즈</a>
             </div>
           </div>
         </div>

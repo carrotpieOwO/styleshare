@@ -71,7 +71,7 @@
 						<p class="my-auto ml-1">${principal.username}</p>
 					</a>
 				<div class="dropdown-menu" style="font-size:12px; width:30px;">
-					<a class="dropdown-item" href="/review/write">리뷰작성</a> 
+					<a class="dropdown-item" href="/style/write">리뷰작성</a> 
 					<a class="dropdown-item" href="/user/mypage/${principal.username}">마이페이지</a> 
 					<a class="dropdown-item" href="/user/profile/${principal.id}">프로필 수정</a> 
 					<a class="dropdown-item" href="/logout">로그아웃</a>

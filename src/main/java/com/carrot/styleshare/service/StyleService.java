@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.carrot.styleshare.model.style.dto.ReqAllDto;
+import com.carrot.styleshare.model.style.dto.ReqLikeRankingDto;
 import com.carrot.styleshare.model.style.dto.RespDetailDto;
 import com.carrot.styleshare.model.style.dto.RespWriteDto;
 import com.carrot.styleshare.repository.StyleRepository;
@@ -35,6 +36,11 @@ public class StyleService {
 		return styleRepository.delete(id);
 	}
 	
+	//전체 인기 게시글
+	public List<ReqLikeRankingDto> allRank(){
+		return styleRepository.findAllRanking();
+	}
+	
 	//전체 피드 불러오기
 	public List<ReqAllDto> findAll(){
 		return styleRepository.findAll();
@@ -44,4 +50,20 @@ public class StyleService {
 	public List<ReqAllDto> scrollDown(int id1, int id2){
 		return styleRepository.scrollDown(id1, id2);
 	}
+	
+	//카테고리 인기 게시글
+	public List<ReqLikeRankingDto> CategoryRank(String gender){
+		return styleRepository.findCategoryRanking(gender);
+	}
+	
+	//카테고리 피드 불러오기
+	public List<ReqAllDto> findCategory(String gender){
+		return styleRepository.findCategory(gender);
+	}	
+	
+	//카테고리 무한스크롤
+	public List<ReqAllDto> scrollDownCategory(int id1, int id2, String gender){
+		return styleRepository.scrollDownCategory(id1, id2, gender);
+	}
+	
 }

@@ -39,6 +39,7 @@ import com.carrot.styleshare.model.follow.Follow;
 import com.carrot.styleshare.model.like.Likes;
 import com.carrot.styleshare.model.product.dto.ReqProductDto;
 import com.carrot.styleshare.model.style.dto.ReqAllDto;
+import com.carrot.styleshare.model.style.dto.ReqLikeRankingDto;
 import com.carrot.styleshare.model.style.dto.ReqUpdateDto;
 import com.carrot.styleshare.model.style.dto.RespDetailDto;
 import com.carrot.styleshare.model.style.dto.RespWriteDto;
@@ -86,8 +87,19 @@ public class StyleController {
 	// 메인화면
 	@GetMapping({ "", "/", "/list" })
 	public String posts(Model model) {
+		List<ReqLikeRankingDto> likeRanks = styleService.allRank();
 		List<ReqAllDto> feeds = styleService.findAll();
 		
+		//인기게시글
+		for(int i=0; i<likeRanks.size(); i++) {
+			likeRanks.get(i).setRank(i+1);
+			 int likeCount = likesRepository.likeCount(likeRanks.get(i).getId());
+			  likeRanks.get(i).setLikeCount(likeCount);
+			  int clippingCount = clippingRepository.clippingCount(likeRanks.get(i).getId());
+			  likeRanks.get(i).setClippingCount(clippingCount);
+		}
+		
+		//전체 게시글
 		for(int i=0; i<feeds.size(); i++) {
 			 int likeCount = likesRepository.likeCount(feeds.get(i).getId());
 			  feeds.get(i).setLikeCount(likeCount);
@@ -95,13 +107,14 @@ public class StyleController {
 			  feeds.get(i).setClippingCount(clippingCount);
 			  System.out.println("보관:" +clippingCount);
 		}
+		
+		model.addAttribute("likeRanks", likeRanks);
 		model.addAttribute("feeds", feeds);
 
 		return "/style/list";
 	}
 	
 	//무한스크롤
-
 	@GetMapping("/list/scrollDown/{bno}")
 	public @ResponseBody List<ReqAllDto> scrollDown(@PathVariable int bno){
 		//유저랭킹
@@ -120,8 +133,154 @@ public class StyleController {
 		return feeds;
 	}
 	
-	
+	// 메인화면-MEN
+		@GetMapping({ "/men" })
+		public String mens(Model model) {
+			List<ReqLikeRankingDto> likeRanks = styleService.CategoryRank("남자");
+			List<ReqAllDto> feeds = styleService.findCategory("남자");
+			
+			//인기게시글
+			for(int i=0; i<likeRanks.size(); i++) {
+				likeRanks.get(i).setRank(i+1);
+				 int likeCount = likesRepository.likeCount(likeRanks.get(i).getId());
+				  likeRanks.get(i).setLikeCount(likeCount);
+				  int clippingCount = clippingRepository.clippingCount(likeRanks.get(i).getId());
+				  likeRanks.get(i).setClippingCount(clippingCount);
+			}
+			
+			//전체 게시글
+			for(int i=0; i<feeds.size(); i++) {
+				 int likeCount = likesRepository.likeCount(feeds.get(i).getId());
+				  feeds.get(i).setLikeCount(likeCount);
+				  int clippingCount = clippingRepository.clippingCount(feeds.get(i).getId());
+				  feeds.get(i).setClippingCount(clippingCount);
+				  System.out.println("보관:" +clippingCount);
+			}
+			
+			model.addAttribute("likeRanks", likeRanks);
+			model.addAttribute("feeds", feeds);
 
+			return "/style/men";
+		}
+		
+		//무한스크롤
+		@GetMapping("/men/scrollDown/{bno}")
+		public @ResponseBody List<ReqAllDto> scrollDownMen(@PathVariable int bno){
+			//유저랭킹
+		
+			System.out.println("아이디값 "+bno);
+			List<ReqAllDto> feeds = styleService.scrollDownCategory(bno, bno, "남자");
+			System.out.println(feeds);
+
+			for(int i=0; i<feeds.size(); i++) {
+			 int likeCount = likesRepository.likeCount(feeds.get(i).getId());
+			  feeds.get(i).setLikeCount(likeCount);
+			  int clippingCount = clippingRepository.clippingCount(feeds.get(i).getId());
+			  feeds.get(i).setClippingCount(clippingCount); 
+			}
+			
+			return feeds;
+		}
+	
+		// 메인화면-WOMEN
+				@GetMapping({ "/women" })
+				public String womens(Model model) {
+					List<ReqLikeRankingDto> likeRanks = styleService.CategoryRank("여자");
+					List<ReqAllDto> feeds = styleService.findCategory("여자");
+					
+					//인기게시글
+					for(int i=0; i<likeRanks.size(); i++) {
+						likeRanks.get(i).setRank(i+1);
+						 int likeCount = likesRepository.likeCount(likeRanks.get(i).getId());
+						  likeRanks.get(i).setLikeCount(likeCount);
+						  int clippingCount = clippingRepository.clippingCount(likeRanks.get(i).getId());
+						  likeRanks.get(i).setClippingCount(clippingCount);
+					}
+					
+					//전체 게시글
+					for(int i=0; i<feeds.size(); i++) {
+						 int likeCount = likesRepository.likeCount(feeds.get(i).getId());
+						  feeds.get(i).setLikeCount(likeCount);
+						  int clippingCount = clippingRepository.clippingCount(feeds.get(i).getId());
+						  feeds.get(i).setClippingCount(clippingCount);
+						  System.out.println("보관:" +clippingCount);
+					}
+					
+					model.addAttribute("likeRanks", likeRanks);
+					model.addAttribute("feeds", feeds);
+
+					return "/style/women";
+				}
+				
+				//무한스크롤
+				@GetMapping("/women/scrollDown/{bno}")
+				public @ResponseBody List<ReqAllDto> scrollDownWomen(@PathVariable int bno){
+					//유저랭킹
+				
+					System.out.println("아이디값 "+bno);
+					List<ReqAllDto> feeds = styleService.scrollDownCategory(bno, bno, "여자");
+					System.out.println(feeds);
+
+					for(int i=0; i<feeds.size(); i++) {
+					 int likeCount = likesRepository.likeCount(feeds.get(i).getId());
+					  feeds.get(i).setLikeCount(likeCount);
+					  int clippingCount = clippingRepository.clippingCount(feeds.get(i).getId());
+					  feeds.get(i).setClippingCount(clippingCount); 
+					}
+					
+					return feeds;
+				}
+				
+				// 메인화면-KIDS
+				@GetMapping({ "/kids" })
+				public String kids(Model model) {
+					List<ReqLikeRankingDto> likeRanks = styleService.CategoryRank("키즈");
+					List<ReqAllDto> feeds = styleService.findCategory("키즈");
+					
+					//인기게시글
+					for(int i=0; i<likeRanks.size(); i++) {
+						likeRanks.get(i).setRank(i+1);
+						 int likeCount = likesRepository.likeCount(likeRanks.get(i).getId());
+						  likeRanks.get(i).setLikeCount(likeCount);
+						  int clippingCount = clippingRepository.clippingCount(likeRanks.get(i).getId());
+						  likeRanks.get(i).setClippingCount(clippingCount);
+					}
+					
+					//전체 게시글
+					for(int i=0; i<feeds.size(); i++) {
+						 int likeCount = likesRepository.likeCount(feeds.get(i).getId());
+						  feeds.get(i).setLikeCount(likeCount);
+						  int clippingCount = clippingRepository.clippingCount(feeds.get(i).getId());
+						  feeds.get(i).setClippingCount(clippingCount);
+						  System.out.println("보관:" +clippingCount);
+					}
+					
+					model.addAttribute("likeRanks", likeRanks);
+					model.addAttribute("feeds", feeds);
+
+					return "/style/kids";
+				}
+				
+				//무한스크롤
+				@GetMapping("/kids/scrollDown/{bno}")
+				public @ResponseBody List<ReqAllDto> scrollDownKids(@PathVariable int bno){
+					//유저랭킹
+				
+					System.out.println("아이디값 "+bno);
+					List<ReqAllDto> feeds = styleService.scrollDownCategory(bno, bno, "키즈");
+					System.out.println(feeds);
+
+					for(int i=0; i<feeds.size(); i++) {
+					 int likeCount = likesRepository.likeCount(feeds.get(i).getId());
+					  feeds.get(i).setLikeCount(likeCount);
+					  int clippingCount = clippingRepository.clippingCount(feeds.get(i).getId());
+					  feeds.get(i).setClippingCount(clippingCount); 
+					}
+					
+					return feeds;
+				}
+				
+				
 	// 글쓰기
 	@GetMapping("/style/write")
 	public String write(Model model) {

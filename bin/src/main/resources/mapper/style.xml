@@ -26,21 +26,12 @@
 		delete from style where id=#{id}
 	</delete>
 	
-	<!-- 전체랭킹 -->
-	<select id="findAllRanking" resultType="com.carrot.styleshare.model.style.dto.ReqLikeRankingDto">
-		select count(l.id)count, s.id, s.image1, u.username, u.profile 
-		from style s inner join likes l on s.id=l.styleId  
-		inner join user u on s.userId = u.id
-		group by styleId order by count desc limit 3
-	</select>
-	
 	<!-- 전체피드 -->
 	<select id="findAll" resultType="com.carrot.styleshare.model.style.dto.ReqAllDto">
 		select s.id, s.image1, s.image2, u.username, u.profile 
 		from style s inner join user u on s.userId = u.id order by s.id desc limit 0, 9
 	</select>
 	
-	<!-- 전체 무한스크롤 -->
 	<select id="scrollDown" resultType="com.carrot.styleshare.model.style.dto.ReqAllDto">
 		<![CDATA[
 		select s.id, s.image1, s.image2, u.username, u.profile 
@@ -48,33 +39,5 @@
 		where s.id < #{id1} and s.id > #{id2}-10 order by s.id desc
 		]]>
 	</select>
-	
-	<!-- 카테고리랭킹 -->
-	<select id="findCategoryRanking" resultType="com.carrot.styleshare.model.style.dto.ReqLikeRankingDto">
-		select count(l.id)count, s.id, s.image1, u.username, u.profile 
-		from style s inner join likes l on s.id=l.styleId  
-		inner join user u on s.userId = u.id
-        where u.gender=#{gender}
-		group by styleId order by count desc limit 3;
-	</select>
-	
-	<!-- 카테고리피드 -->
-	<select id="findCategory" resultType="com.carrot.styleshare.model.style.dto.ReqAllDto">
-		select s.id, s.image1, s.image2, u.username, u.profile, u.gender 
-		from style s inner join user u on s.userId = u.id 
-		where u.gender=#{gender}
-		order by s.id desc limit 0, 9;
-	</select>
-	
-	<!-- 카테고리 무한스크롤 -->
-	<select id="scrollDownCategory" resultType="com.carrot.styleshare.model.style.dto.ReqAllDto">
-		<![CDATA[
-		select s.id, s.image1, s.image2, u.username, u.profile 
-		from style s inner join user u on s.userId = u.id 
-		where s.id < #{id1} and s.id > #{id2}-10 and u.gender=#{gender}
-		order by s.id desc
-		]]>
-	</select>
-	
 	
 </mapper>

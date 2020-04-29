@@ -86,11 +86,11 @@
         </c:choose>
         </div>
         <ul class="d-flex justify-content-center nav-menu mt-1 mb-4r">
-            <a href="#" class="borderCenter"><li class="mx-5">ALL</li></a>
-            <a href="#" class="borderCenter"><li class="mx-5">MEN</li></a>
-            <a href="#" class="borderCenter"><li class="mx-5">WOMEN</li></a>
-            <a href="#" class="borderCenter"><li class="mx-5">KIDS</li></a>
-            <a href="#" class="borderCenter"><li class="mx-5">FOLLOW</li></a>
+            <a href="/" class="borderCenter"><li class="mx-5">ALL</li></a>
+            <a href="/men" class="borderCenter"><li class="mx-5">MEN</li></a>
+            <a href="/women" class="borderCenter"><li class="mx-5">WOMEN</li></a>
+            <a href="/kids" class="borderCenter"><li class="mx-5">KIDS</li></a>
+            <a href="/follow" class="borderCenter"><li class="mx-5">FOLLOW</li></a>
         </ul>
             </div>
         </nav>

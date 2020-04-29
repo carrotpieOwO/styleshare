@@ -159,7 +159,7 @@
 
 
       async function load_feed_box(lastbno){
-      	let response = await fetch('/list/scrollDown/'+lastbno);
+      	let response = await fetch('/women/scrollDown/'+lastbno);
       	let feeds = await response.json();
       	
       	
