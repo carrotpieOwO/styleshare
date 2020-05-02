@@ -203,8 +203,8 @@ input::placeholder {
 #user_header_mini {
     width: 100%;
     left: 0;
-    margin-top: 5px;  
     background: #fff;
+    border-top: solid 1px #ddd;
     border-bottom: solid 1px #ddd;
     display: table;
     height: 60px;

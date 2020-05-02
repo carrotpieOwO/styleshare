@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.carrot.styleshare.repository.ProductRepository">
+
+	
+	<insert id="write">
+		insert into product(image, title, link, lprice, styleId, userId, brand, productId, createDate)
+		values(#{image}, #{title}, #{link}, #{lprice}, #{styleId}, #{userId}, #{brand}, #{productId}, now())
+	</insert>
+	
+	<!-- 불러오기 -->
+	<select id="findById" resultType="com.carrot.styleshare.model.product.dto.ReqProductDto">
+		select * from product where styleId=#{styleId}
+	</select>
+	
+	<!-- 삭제 -->
+	<delete id="delete">
+		delete from product where styleId = #{styleId}
+	</delete>
+</mapper>

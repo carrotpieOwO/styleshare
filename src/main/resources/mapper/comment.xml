@@ -34,11 +34,12 @@
 		delete from comment where id = #{id}
 	</delete>
 	
-	<!-- 코멘트 알림
-	<select id="findByCommentMe" resultType="com.carrot.nyam.model.comment.dto.ReqCommentMeDto">
-		select c.id, c.userId fromUser, c.content, c.createDate, u.username, u.profile, r.id reviewId, r.userId toUser, r.image1 
+	<!-- 코멘트 알림 -->
+	<select id="findByCommentMe" resultType="com.carrot.styleshare.model.comment.dto.ReqCommentMeDto">
+		select c.id, c.userId fromUser, c.content, c.createDate, u.username, u.profile, s.id styleId, s.userId toUser, s.image1 
 		from comment c inner join user u on userId = u.id 
-		inner join review r on reviewId = r.id
-		where r.userId = 3 ;  	
-	</select> -->
+		inner join style s on styleId = s.id
+		where s.userId = ${userId}   	
+	</select> 
+	
 </mapper>

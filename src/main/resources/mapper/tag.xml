@@ -20,4 +20,16 @@
 		delete from tag where styleId = #{styleId}
 	</delete>
 	
+	<!-- 검색>태그로 찾기 -->
+	<select id="searchByTag" resultType="com.carrot.styleshare.model.tag.dto.ReqSearchTagDto">
+		select s.id, s.image1, s.image2, u.username, u.profile, t.tag 
+		from style s inner join user u on s.userId = u.id inner join tag t on s.id = t.styleId 
+		where t.tag regexp '${tag}' order by s.id desc
+	</select>
+	
+	<!-- 검색>태그명 중복제거 -->
+	<select id="selectDistinctTag" resultType="com.carrot.styleshare.model.tag.Tag">
+		select distinct tag from tag where tag regexp '${tag}' order by id desc;
+	</select>
+	
 </mapper>

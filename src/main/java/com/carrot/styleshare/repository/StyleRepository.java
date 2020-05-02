@@ -18,5 +18,9 @@ public interface StyleRepository {
 	public List<ReqLikeRankingDto> findCategoryRanking(String gender);
 	public List<ReqAllDto> findCategory(String gender);
 	public List<ReqAllDto> scrollDownCategory(int id1, int id2, String gender);
+	public List<ReqLikeRankingDto> findDetailRanking(int userId);
+	public List<ReqAllDto> findByFollow(int userId);
+	public List<ReqAllDto> scrollDownFollow(int id1, int id2, int userId);
+	public List<ReqAllDto> searchAll(String content, String tag, String keyword);
 
 }

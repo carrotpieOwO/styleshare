@@ -4,10 +4,10 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
       <!--디테일 -->
     <section>
-      <div class="row">
+      <div class="row" style="margin-top:150px">
         <div class="container col-md-2 mt-5">
           <ul class="float-right my-2">
-          <li class="mb-4"><a href="/user/profile"><i class="fas fa-user"></i> 프로필 수정</a></li><hr/>
+          <li class="mb-4"><a href="/user/profile/${principal.id}"><i class="fas fa-user"></i> 프로필 수정</a></li><hr/>
           <li><i class="fas fa-lock"></i> 비밀번호 변경</li>
         </ul>
         </div>

@@ -55,5 +55,20 @@
 		order by s.id desc
 		]]>
 	</select>
-
+	
+	<!-- 검색>유저 찾기 -->
+	<select id="searchByUsername" resultType="com.carrot.styleshare.model.user.dto.RespSearchDto">
+		<![CDATA[
+		select u.id, u.username, u.profile, count(s.id)
+		from style s inner join user u on s.userId = u.id 
+		where u.username regexp #{username} group by u.username order by s.id
+		]]>
+	</select>
+	
+	<!-- 검색>유저 최근 게시물 불러오기 -->
+	<select id="imageByUsername" resultType="com.carrot.styleshare.model.user.dto.RespStyleListDto">
+		select s.image1 from style s inner join user u on s.userId = u.id
+		where userId=#{userId} order by s.id desc limit 4;
+	</select>
+	
 </mapper>

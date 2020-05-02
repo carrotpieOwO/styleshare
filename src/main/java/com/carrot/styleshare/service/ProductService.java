@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.carrot.styleshare.model.product.dto.ReqProductDto;
+import com.carrot.styleshare.model.product.dto.ReqSearchKeywordDto;
 import com.carrot.styleshare.repository.ProductRepository;
 
 @Service
@@ -14,9 +15,9 @@ public class ProductService {
 	private ProductRepository productRepository;
 
 	// 글쓰기
-	public int write(String image, String title, String link, int lprice, int styleId, int userId, String brand, String productId) {
+	public int write(String image, String title, String link, int lprice, int styleId, int userId, String keyword, String productId) {
 		try {
-			return productRepository.write(image, title, link, lprice, styleId, userId, brand, productId);
+			return productRepository.write(image, title, link, lprice, styleId, userId, keyword, productId);
 
 
 		} catch (Exception e) {
@@ -34,6 +35,11 @@ public class ProductService {
 	//삭제
 	public int delete(int styleId) {
 		return productRepository.delete(styleId);
+	}
+	
+	//키워드 검색
+	public List<ReqSearchKeywordDto> searchByKeyword(String keyword){
+		return productRepository.searchByKeyword(keyword);	
 	}
 
 }

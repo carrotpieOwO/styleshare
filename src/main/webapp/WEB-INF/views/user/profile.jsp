@@ -5,7 +5,7 @@
 
   <!--사이드바 -->
     <section>
-      <div class="row">
+      <div class="row" style="margin-top:150px">
         <div class="container col-md-2 mt-5">
           <ul class="float-right my-2">
           <li class="mb-4"><i class="fas fa-user"></i> 프로필 수정</li><hr/>

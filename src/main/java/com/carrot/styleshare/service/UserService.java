@@ -12,6 +12,8 @@ import com.carrot.styleshare.model.user.User;
 import com.carrot.styleshare.model.user.dto.ReqJoinDto;
 import com.carrot.styleshare.model.user.dto.ReqPwdUpdateDto;
 import com.carrot.styleshare.model.user.dto.RespListDto;
+import com.carrot.styleshare.model.user.dto.RespSearchDto;
+import com.carrot.styleshare.model.user.dto.RespStyleListDto;
 import com.carrot.styleshare.repository.UserRepository;
 
 @Service
@@ -107,7 +109,17 @@ public class UserService {
 	
 	//무한스크롤
 	//마이페이지 리스트
-		public List<RespListDto> scrollDownMypage(int id1, int id2, String username){
-			return userRepository.scrollDownMypage(id1, id2, username);
-		}
+	public List<RespListDto> scrollDownMypage(int id1, int id2, String username){
+		return userRepository.scrollDownMypage(id1, id2, username);
+	}
+	
+	//유저이름 검색
+	public List<RespSearchDto> searchByUsername(String username){
+		return userRepository.searchByUsername(username);
+	}
+	
+	//유저이름 검색 > 게시글리스트
+	public List<RespStyleListDto> imageByUsername(int userId){
+		return userRepository.imageByUsername(userId);
+	}
 }

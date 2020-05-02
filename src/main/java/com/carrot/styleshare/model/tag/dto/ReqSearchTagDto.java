@@ -10,8 +10,7 @@ import lombok.NoArgsConstructor;
 public class ReqSearchTagDto {
 	private int id;
 	private String image1;
-	private String location;
-	private String category;
+	private String image2;
 	private String username;
 	private String profile;
 	private String tag;

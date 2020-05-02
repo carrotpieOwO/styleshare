@@ -12,11 +12,6 @@
     />
     <link href="/css/member_style.css" rel="stylesheet" type="text/css" />
 
-    <script
-      type="text/javascript"
-      src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js"
-      charset="utf-8"
-    ></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
@@ -26,8 +21,8 @@
       <h1>StyleShare</h1>
       <h5>로그인</h5>
        <form>
-      <div class="row join my-5 mx-3">
-        <div class="form-left my-auto px-4">
+      <div class="row join my-5 mx-3 justify-content-center">
+        <div class="my-auto px-4 ">
           <input
             type="username"
             class="form-control"
@@ -44,7 +39,7 @@
           />
    		<p id="login-check" class="text-danger" style="font-size: 11px;"></p>
           
-          <button id="login-submit" type="button" class="btn btn-dark mt-3 float-right">로그인</button>
+          <button id="login-submit" type="button" class="btn btn-dark mt-3">로그인</button>
         </div>
         </form>
         <div class="form-right my-auto px-2">
@@ -58,24 +53,10 @@
     </div>
 
     <script type="text/javascript">
-      var naver_id_login = new naver_id_login(
-        "Z67LEXnLFW6Gxln_n7HU",
-        "http://127.0.0.1:5501/"
-      );
-      var state = naver_id_login.getUniqState();
-      naver_id_login.setButton("green", 3, 40);
-      naver_id_login.setDomain("http://127.0.0.1:5501/login.html");
-      naver_id_login.setState(state);
-      naver_id_login.setPopup();
-      naver_id_login.init_naver_id_login();
 
       $('#login-submit').on('click', function(e) {
   		e.preventDefault();
-  		/* if ($('#remember').prop('checked')) {
-  			$('#remember').val(1);
-  		} else {
-  			$('#remember').val(0);
-  		} */
+  		
 
   		var data = {
   			username : $('#username').val(),

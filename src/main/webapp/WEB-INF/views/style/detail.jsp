@@ -5,7 +5,7 @@
  
  <!-- 유저정보 -->
  <section>
-    <div id="user_header_mini" class="stickyUi ">
+    <div id="user_header_mini" class="stickyUi" style="margin-top:110px;">
       <div class="container" style="width: 80%;" >
         <div class="row align-items-center" style="height: 70px;">
           <div class="profile">
@@ -59,7 +59,7 @@
         <section>
         <div class="container" style="margin-top: 16px;">
           <div class="row">
-            <div class="col-md-7">
+            <div class="col-md-7 mb-5">
               
               <div class="card" >
                 <div id="demo" class="carousel slide" data-ride="carousel">
@@ -195,45 +195,28 @@
                 </div>
                 </c:if>
               </div>
+              
+              <!-- 글쓴이 인기 게시글 리스트 -->
               <div class="row mt-5 ml-1">
-                <h4>username의 인기코디</h4>
+                <h4>@ ${style.username}님의 인기코디</h4>
               </div>
               <div class="row mt-3">
+              	<c:forEach var="rank" items="${ranks}">
                   <div class="col-md-4 px-1">
                 <div class="card" >
-                    <img class="card-img-top" src="img_avatar1.png" alt="Card image">
+                	<a href="/style/${rank.id}">
+                    <img  src="/media/${rank.image1}" 
+                    class="card-img-top" style="cursor:pointer;"/></a>
                     <div class="card-footer ">
                       <h5 class="card-title my-auto mx-auto text-center">
-                        <i class="fas fa-heart"></i> 33&nbsp;
-                        <i class="fas fa-plus-circle"></i> 5
+                        <i class="fas fa-heart"></i> ${rank.likeCount}&nbsp;
+                        <i class="fas fa-plus-circle"></i> ${rank.clippingCount}
                       </h5>
                     </div>
                   </div>
                 </div>
+                </c:forEach>
 
-                <div class="col-md-4 px-1">
-                    <div class="card" >
-                        <img class="card-img-top" src="img_avatar1.png" alt="Card image">
-                        <div class="card-footer ">
-                          <h5 class="card-title my-auto mx-auto text-center">
-                            <i class="fas fa-heart"></i> 33&nbsp;
-                            <i class="fas fa-plus-circle"></i> 5
-                          </h5>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="col-md-4 px-1">
-                        <div class="card" >
-                            <img class="card-img-top" src="img_avatar1.png" alt="Card image">
-                            <div class="card-footer ">
-                              <h5 class="card-title my-auto mx-auto text-center">
-                                <i class="fas fa-heart"></i> 33&nbsp;
-                                <i class="fas fa-plus-circle"></i> 5
-                              </h5>
-                            </div>
-                          </div>
-                        </div>
               </div>
             </div>
     
@@ -266,7 +249,7 @@
               </div>
     
               <!-- 프로덕트 -->
-              <div class="card mt-3">
+              <div class="card mt-3 mb-5">
                 <div class="card-header">
                     <i class="fas fa-tshirt"></i> <strong>착용 아이템</strong>
                 </div>
@@ -283,21 +266,21 @@
                    </div>
                   </div>
                   <div class="text-right mb-2">
-                  <a href="${product.link}" class="btn btn-sm btn-dark" style="color:white">
+                  <a href="${product.link}" class="btn btn-sm btn-dark" style="color:white" target="_blank">
                   <i class="fas fa-shopping-cart" ></i> 사러가기</a>
                </div>
 				</div>
                   </c:forEach>
                   
-                  <!-- 브랜드 -->
+                  <!-- 키워드 -->
    			                              
                    <div class="pt-3 ml-3 row">
 		       	  <c:forEach var="product" items="${products}">
 		         <form class="mr-2" action="/search" method="get">
-		          <c:if test="${!empty product.brand}"> 
-		        	<input type="hidden" name="searchMenu" value="브랜드"/>
-		        	<input type="hidden" name="searchContent" value="${product.brand}"/>
-		        	<button class="btn btn-outline-dark text-outline-light" type="submit">${product.brand}</button>
+		          <c:if test="${!empty product.keyword}"> 
+		        	<input type="hidden" name="searchMenu" value="키워드"/>
+		        	<input type="hidden" name="searchContent" value="${product.keyword}"/>
+		        	<button class="btn btn-outline-dark text-outline-light mt-2" type="submit">${product.keyword}</button>
 		       		</c:if>
 		       		</form>
 		          </c:forEach>
@@ -473,6 +456,55 @@
 				alert('글 삭제 실패');
 			});
 		});
+
+		//팔로우
+		function follow(fromUserId, toUserId){
+			console.log(toUserId);
+			console.log(fromUserId);
+
+			console.log('#follow-true')
+				var data = {
+						fromUser: fromUserId,
+						toUser: toUserId
+					};
+					console.log(data);
+				 	$.ajax({
+						type : 'POST',
+						url : '/follow',
+						data : JSON.stringify(data),
+						contentType : 'application/json; charset=utf-8', //보내는 데이터
+						dataType : 'text' //응답 데이터, 데이터 주고받을땐 무조건 스트링으로 인식해서 이렇게 해줘야 제이슨으로 인식함
+					}).done(function(r) { //그래서 여기서 받을 때 잭슨이 제이슨을 자바스크립트로 바꿔줘서 자바스크립트 오브젝트화됨
+						console.log(r);
+						if (r == 'ok') {
+							console.log(r);
+							
+							if($('#followBoolean').val() == 'true'){
+								$('#follow-true').attr('class','btn btn-primary ml-auto mt-2  text-white');
+								$('#follow-true').html('<i id="plus" class="fas fa-user-plus"></i> 팔로우');						
+								$('#follow-true').attr('id','follow-false');
+								$('#followBoolean').val('false');
+								               
+
+							}else {
+								$('#follow-false').attr('class','btn btn-outline-dark ml-auto mt-2');
+								$('#follow-false').html('<i id="check" class="fas fa-user-check"></i> 팔로잉');						
+								$('#follow-false').attr('id','follow-true');
+								$('#followBoolean').val('true');
+
+								/* $('#like-item-'+reviewId).attr('class','far fa-heart float-right');
+								$('#likeCount').text(Number(likeCount)-1);
+								}	 */
+						}
+						}else{
+								alert('좋아요 실패');
+							}
+					}).fail(function(r) {
+						alert('댓글 삭제 실패');
+					}); 
+				
+				}
+		
 		
   </script>
   <%@include file="../modal/likeModal.jsp"%>

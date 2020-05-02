@@ -14,7 +14,7 @@ public class ReqProductDto {
 	private String title;
 	private String link;
 	private int lprice;
-	private String brand;
+	private String keyword;
 	private String productId;
 	
 }

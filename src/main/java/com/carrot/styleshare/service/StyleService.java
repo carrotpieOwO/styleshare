@@ -66,4 +66,23 @@ public class StyleService {
 		return styleRepository.scrollDownCategory(id1, id2, gender);
 	}
 	
+	//팔로우 피드 불러오기
+	public List<ReqAllDto> findByFollow(int userId){
+		return styleRepository.findByFollow(userId);
+	}
+	
+	//팔로우 무한스크롤
+	public List<ReqAllDto> scrollDownFollow(int id1, int id2, int userId){
+		return styleRepository.scrollDownFollow(id1, id2, userId);
+	}
+		
+	//디테일 인기 게시글
+	public List<ReqLikeRankingDto> detailRank(int userId){
+		return styleRepository.findDetailRanking(userId);
+	}
+	
+	//전체검색	
+	public List<ReqAllDto> searchAll(String content, String tag, String keyword){
+		return styleRepository.searchAll(content, tag, keyword);
+	}
 }

@@ -5,6 +5,8 @@ import java.util.List;
 import com.carrot.styleshare.model.user.User;
 import com.carrot.styleshare.model.user.dto.ReqJoinDto;
 import com.carrot.styleshare.model.user.dto.RespListDto;
+import com.carrot.styleshare.model.user.dto.RespSearchDto;
+import com.carrot.styleshare.model.user.dto.RespStyleListDto;
 
 public interface UserRepository {
 	User authentication(String username);
@@ -15,5 +17,6 @@ public interface UserRepository {
 	int updatePassword(String password, String username);
 	List<RespListDto> mypageList(String username, int userId);
 	List<RespListDto> scrollDownMypage(int id1, int id2, String username);
-
+	List<RespSearchDto> searchByUsername(String username);
+	List<RespStyleListDto> imageByUsername(int userId);
 }

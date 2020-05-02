@@ -4,7 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
  <!--랭킹-->
     <section>
-      <div class="container post-box">
+      <div class="container post-box" style="margin-top:150px">
                 <form action="/style/write" method="post" id="frm" enctype="multipart/form-data" class="row justify-content-center">
       
         <div class="container pt-4">

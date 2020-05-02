@@ -3,7 +3,7 @@
     <%@include file="../include/nav.jsp"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
  <!--랭킹-->
-    <div class="container mt-4">
+    <div class="container" style="margin-top:150px">
     <div class="row">
         <h1>랭킹</h1>
     </div>
@@ -51,34 +51,18 @@
         <h1>트렌드 키워드</h1>
         </div>
     <div class="row text-center ml-auto justify-content-center mb-2 mr-5" >
-       
-       
-          <div class="card mr-5 textZoom" >
-            <a href="#" class=" my-3 mx-5">#Basic card</a>
-          </div>
-          <div class="card mr-5 textZoom">
-            <a href="#" class="my-3 mx-5">#Basic card</a>
-          </div>
-          <div class="card mr-5 textZoom">
-            <a href="#" class="my-3 mx-5">#Basic card</a>
-          </div>
-          
+       <c:forEach var="trend" items="${trends}" begin="0" end="9" varStatus="status">       
+	       <form action="/search" id="search${status.index}" method="GET">
+	        <input type="hidden" name="searchMenu" value="전체"/>
+	        <input type="hidden" name="searchContent" value="${trend}" />
+	       </form>
+       <div class="card  mr-5 textZoom mt-2" >
+         <a onclick="trendSearch(${status.index})" class="my-3 mx-5" style="cursor:pointer;">${trend}</a>
+       </div>
+       </c:forEach>
         
         </div>
-        <div class="row text-center ml-auto justify-content-center" >
-       
-       
-          <div class="card mr-5 textZoom" >
-            <a href="#" class="my-3 mx-5">#Basic card</a>
-            </div>
-            <div class="card mr-5 textZoom">
-              <a href="#" class=" my-3 mx-5">#Basic card</a>
-            </div>
-            <div class="card mr-5 textZoom">
-              <a href="#" class="my-3 mx-5">#Basic card</a>
-            </div>
-      
-          </div>
+        
           </div>
 
           <!--카드-->
@@ -114,7 +98,7 @@
                   <p class="img float-left mr-2">
                   <img src="/media/${feed.profile}" class="border rounded-circle" onError="javascript:this.src='/img/unknown.png'" width="36" height="36"></p>
                   <p class="name clearfix " style="font-size: 11px;">${feed.username}</p>
-                  <p class="btn btn-sm btn-info ml-auto">팔로우</p>
+                  <a href="/user/mypage/${likeRank.username}" class="btn btn-warning mb-auto ml-auto" style="cursor: pointer; z-index:10"><i class="fas fa-home"></i></a>            
               </div>
                 </p>
                
@@ -140,7 +124,11 @@
         $(this).find('.style-info').css('visibility', 'hidden');
       });
     
-
+    //트렌드키워드 검색
+      function trendSearch(index){
+		$('#search'+index).submit();
+      }
+     
 
       $(document).ready(function(){
       	$(window).scroll(function(){

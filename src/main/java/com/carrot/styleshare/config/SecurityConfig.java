@@ -38,7 +38,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		http.csrf().disable();
 		//모든 리퀘스트 받기
 				http.authorizeRequests()
-					.antMatchers("/user/profile/**","/user/password/**","/style/write/**","/style/modify/**","/style/delete/**").authenticated() //얘는 인증 필요하다.
+					.antMatchers("/user/profile/**","/user/password/**","/style/write/**","/style/modify/**","/style/delete/**","/timeline/**").authenticated() //얘는 인증 필요하다.
 					.anyRequest().permitAll()
 				.and()
 					.formLogin()

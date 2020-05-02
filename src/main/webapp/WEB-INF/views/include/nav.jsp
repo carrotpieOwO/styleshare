@@ -17,7 +17,7 @@
     <meta name="description" content="" />
     <meta name="author" content="" />
 
-    <title>Agency - Start Bootstrap Theme</title>
+    <title>StyleShare</title>
     <script type="text/javascript" src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js" charset="utf-8"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -47,7 +47,7 @@
   <body>
 <!--네비게이터-->
     <section>
-    <nav class="nav">
+    <nav class="nav fixed-top">
       <div class="container" style="width: 80%;" >
         <div class="row align-items-center justify-content-between nav-list">
             <a href="/" class="row align-items-center textZoom">
@@ -59,7 +59,8 @@
                 </div>
             </a>  
         <form action="/search" method="GET" class="nav-search">
-            <input type="search" class="form-control" id="search" placeholder="&#xf002 스타일과 상품을 검색해 보세요" />
+        	<input type="hidden" name="searchMenu" value="전체"/>
+            <input type="search" class="form-control" id="search" name="searchContent" placeholder="&#xf002 스타일과 상품을 검색해 보세요" />
         </form>
        
         <c:choose>
@@ -76,7 +77,7 @@
 					<a class="dropdown-item" href="/user/profile/${principal.id}">프로필 수정</a> 
 					<a class="dropdown-item" href="/logout">로그아웃</a>
 				</div></li>
-					<a class="nav-link mr-3 textZoom" data-toggle="modal" data-target="#alertModal" data-submit="${principal.id}">
+					<a class="nav-link mr-3 textZoom" data-toggle="modal" data-target="#alertModal" data-submit="${principal.id}" style="cursor:pointer">
 					<i class="far fa-bell" style="font-size:20px"></i></a></li>
 				</div>
 			</c:when>
@@ -90,7 +91,7 @@
             <a href="/men" class="borderCenter"><li class="mx-5">MEN</li></a>
             <a href="/women" class="borderCenter"><li class="mx-5">WOMEN</li></a>
             <a href="/kids" class="borderCenter"><li class="mx-5">KIDS</li></a>
-            <a href="/follow" class="borderCenter"><li class="mx-5">FOLLOW</li></a>
+            <a href="/timeline/${principal.id}" class="borderCenter"><li class="mx-5">FOLLOW</li></a>
         </ul>
             </div>
         </nav>
@@ -101,3 +102,5 @@
 	    $('#search').attr('placeholder','');
 	  });
   </script>
+  <%@include file="../modal/alertModal.jsp"%>
+  

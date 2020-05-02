@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.carrot.styleshare.repository.CommentRepository">
+
+	<select id="findByStyleId"
+		resultType="com.carrot.styleshare.model.comment.dto.RespDetailDto">
+		select c.*, u.username, u.profile
+		from comment c inner join user u
+		on c.userId = u.id 
+		where c.styleId=#{styleId}
+		order by c.id
+	</select>
+
+
+	<insert id="save" useGeneratedKeys="true" keyProperty="id"
+		parameterType="com.carrot.styleshare.model.comment.dto.ReqWriteDto">
+
+		insert into comment(userId, styleId, content, createDate)
+		values(#{userId}, #{styleId}, #{content}, now())
+	</insert>
+	
+	<select id="findById"
+		resultType="com.carrot.styleshare.model.comment.dto.RespDetailDto">
+		select c.*, u.username, u.profile
+		from comment c inner join user u
+		on c.userId = u.id
+		where c.id = #{id}
+	</select>
+	
+	
+	<delete id="delete">
+		delete from comment where id = #{id}
+	</delete>
+	
+	<!-- 코멘트 알림
+	<select id="findByCommentMe" resultType="com.carrot.nyam.model.comment.dto.ReqCommentMeDto">
+		select c.id, c.userId fromUser, c.content, c.createDate, u.username, u.profile, r.id reviewId, r.userId toUser, r.image1 
+		from comment c inner join user u on userId = u.id 
+		inner join review r on reviewId = r.id
+		where r.userId = 3 ;  	
+	</select> -->
+</mapper>

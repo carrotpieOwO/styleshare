@@ -51,7 +51,7 @@
 	
 	<!-- 카테고리랭킹 -->
 	<select id="findCategoryRanking" resultType="com.carrot.styleshare.model.style.dto.ReqLikeRankingDto">
-		select count(l.id)count, s.id, s.image1, u.username, u.profile 
+		select count(l.id)count, s.id, s.image1, s.image2, u.username, u.profile 
 		from style s inner join likes l on s.id=l.styleId  
 		inner join user u on s.userId = u.id
         where u.gender=#{gender}
@@ -76,5 +76,54 @@
 		]]>
 	</select>
 	
+	<!-- 타임라인 -->
+	<select id="findByFollow" resultType="com.carrot.styleshare.model.style.dto.ReqAllDto">
+		select s.id, s.image1, s.image2, u.username, u.profile 
+		from user u inner join style s on u.id = s.userId
+		inner join follow f on u.id = f.toUser
+		where f.fromUser = ${userId}
+		order by s.id desc limit 0, 9
+	</select>
+	
+	<!-- 카테고리 무한스크롤 -->
+	<select id="scrollDownFollow" resultType="com.carrot.styleshare.model.style.dto.ReqAllDto">
+		<![CDATA[
+		select s.id, s.image1, s.image2, u.username, u.profile 
+		from user u inner join style s on u.id = s.userId
+		inner join follow f on u.id = f.toUser
+		where s.id <#{id1} and s.id > #{id2}-10 and f.fromUser =#{userId}
+		order by s.id desc
+		]]>
+	</select>
+	
+	<!-- 디테일 인기게시글 -->
+	<select id="findDetailRanking" resultType="com.carrot.styleshare.model.style.dto.ReqLikeRankingDto">
+		select count(l.id)count, s.id, s.image1, u.username, u.profile 
+		from style s inner join likes l on s.id=l.styleId  
+		inner join user u on s.userId = u.id
+        where u.id = #{userId}
+		group by styleId order by count desc limit 3
+	</select>
+	
+	<!-- 검색 -->
+	<select id="searchAll" resultType="com.carrot.styleshare.model.style.dto.ReqAllDto">
+		<![CDATA[
+		select distinct s.*
+		from style s left join tag t on s.id = t.styleId left join product p on s.id = p.styleId 
+		where s.content regexp #{content} or t.tag regexp #{tag} or p.keyword regexp #{keyword} 
+		order by s.id desc limit 0, 9;
+		]]>
+	</select>
+	
+	<!-- 검색 무한스크롤 -->
+	<!-- <select id="scrollDownSearch" resultType="com.carrot.styleshare.model.style.dto.ReqAllDto">
+		<![CDATA[
+		select s.id, s.image1, s.image2, u.username, u.profile 
+		from user u inner join style s on u.id = s.userId
+		inner join follow f on u.id = f.toUser
+		where s.id <#{id1} and s.id > #{id2}-10 and f.fromUser =#{userId}
+		order by s.id desc
+		]]>
+	</select> -->
 	
 </mapper>

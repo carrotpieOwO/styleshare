@@ -12,6 +12,7 @@ public class ReqLikeRankingDto {
 	private int count;
 	private int id;
 	private String image1;
+	private String image2;
 	private String username;
 	private String profile;
 	private int likeCount;

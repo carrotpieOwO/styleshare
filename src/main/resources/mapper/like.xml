@@ -30,13 +30,13 @@
 	</select>
 	
 	<!-- 좋아요 알림 -->
- 	<!-- <select id="findByLikeMe" resultType="com.carrot.nyam.model.like.dto.ReqLikeMeDto">
-		select l.*, u.username, u.profile, r.image1, r.id styleId
+ 	<select id="findByLikeMe" resultType="com.carrot.styleshare.model.like.dto.ReqLikeMeDto">
+		select l.*, u.username, u.profile, s.image1, s.id styleId
 		from likes l inner join user u on l.userId = u.id
-		inner join style r on l.styleId = r.id 
+		inner join style s on l.styleId = s.id 
 		where l.styleId in 
-		(select id from style where r.userId = #{userId}) order by id desc 
-	</select> -->
+		(select id from style where s.userId = #{userId}) order by id desc 
+	</select> 
  	
 	
 </mapper>

@@ -25,8 +25,8 @@
       <h1>StyleShare</h1>
       <h5>회원가입</h5>
       <form>
-      <div class="row join my-5 mx-3">
-        <div class="form-left my-auto px-4">
+      <div class="row my-5  justify-content-center">
+        <div class=" my-auto">
           <input
             type="username"
             class="form-control"
@@ -58,12 +58,10 @@
             id="pwd-confirm"
           />
           <p id="pwd-confirm-check" class="text-danger" style="font-size:11px;"></p>
-          <button type="button" id="join-submit" class="btn btn-dark mt-3 float-right">가입하기</button>
+          <button type="button" id="join-submit" class="btn btn-dark mt-3">가입하기</button>
         </div>
         </form>
-        <div class="form-right my-auto px-2">
-          <div id="naver_id_login"></div>
-        </div>
+       
       </div>
       <div class="login-toggle">
         <strong>이미 계정을 갖고 계시다구요? </strong>&nbsp;
@@ -72,19 +70,7 @@
     </div>
 
 <script type="text/javascript">
-    //네이버로로그인(회원가입)
-      var naver_id_login = new naver_id_login(
-        "Z67LEXnLFW6Gxln_n7HU",
-        "http://127.0.0.1:5501/"
-      );
-      var state = naver_id_login.getUniqState();
-      naver_id_login.setButton("green", 3, 40);
-      naver_id_login.setDomain("http://127.0.0.1:5501/login.html");
-      naver_id_login.setState(state);
-      naver_id_login.setPopup();
-      naver_id_login.init_naver_id_login();
-
-//자체회원가입
+    
 //ID검증
 $('#username').on('propertychange change keyup paste input',function(){
 	var data = {

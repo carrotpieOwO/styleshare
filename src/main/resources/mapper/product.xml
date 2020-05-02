@@ -6,8 +6,8 @@
 
 	
 	<insert id="write">
-		insert into product(image, title, link, lprice, styleId, userId, brand, productId, createDate)
-		values(#{image}, #{title}, #{link}, #{lprice}, #{styleId}, #{userId}, #{brand}, #{productId}, now())
+		insert into product(image, title, link, lprice, styleId, userId, keyword, productId, createDate)
+		values(#{image}, #{title}, #{link}, #{lprice}, #{styleId}, #{userId}, #{keyword}, #{productId}, now())
 	</insert>
 	
 	<!-- 불러오기 -->
@@ -19,4 +19,12 @@
 	<delete id="delete">
 		delete from product where styleId = #{styleId}
 	</delete>
+	
+	<!-- 검색>키워드로 찾기 -->
+	<select id="searchByKeyword" resultType="com.carrot.styleshare.model.product.dto.ReqSearchKeywordDto">
+		select s.id, s.image1, s.image2, u.username, u.profile, p.keyword 
+		from style s inner join user u on s.userId = u.id inner join product p on s.id = p.styleId 
+		where p.keyword regexp #{keyword} order by s.id desc
+	</select>
+	
 </mapper>

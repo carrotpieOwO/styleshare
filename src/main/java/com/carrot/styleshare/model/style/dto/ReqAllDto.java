@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 public class ReqAllDto {
 	private int rank;
 	private int id;
+	private int userId;
 	private String image1;
 	private String image2;
 	private String username;

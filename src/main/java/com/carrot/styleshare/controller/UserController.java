@@ -5,6 +5,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,16 +34,22 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.carrot.styleshare.model.RespCM;
 import com.carrot.styleshare.model.ReturnCode;
+import com.carrot.styleshare.model.comment.dto.ReqCommentMeDto;
+import com.carrot.styleshare.model.follow.Follow;
 import com.carrot.styleshare.model.follow.dto.ReqFollowInfoDto;
-import com.carrot.styleshare.model.style.dto.ReqAllDto;
+import com.carrot.styleshare.model.follow.dto.ReqFollowMeDto;
+import com.carrot.styleshare.model.like.dto.ReqLikeMeDto;
 import com.carrot.styleshare.model.user.User;
 import com.carrot.styleshare.model.user.dto.ReqEmailCheckDto;
 import com.carrot.styleshare.model.user.dto.ReqIdCheckDto;
 import com.carrot.styleshare.model.user.dto.ReqJoinDto;
 import com.carrot.styleshare.model.user.dto.ReqPwdCheckDto;
 import com.carrot.styleshare.model.user.dto.ReqPwdUpdateDto;
+import com.carrot.styleshare.model.user.dto.RespAlertDto;
 import com.carrot.styleshare.model.user.dto.RespListDto;
 import com.carrot.styleshare.repository.ClippingRepository;
+import com.carrot.styleshare.repository.CommentRepository;
+import com.carrot.styleshare.repository.FollowRepository;
 import com.carrot.styleshare.repository.LikesRepository;
 import com.carrot.styleshare.repository.UserRepository;
 import com.carrot.styleshare.service.UserService;
@@ -62,6 +70,12 @@ public class UserController {
 	
 	@Autowired
 	private ClippingRepository clippingRepository;
+	
+	@Autowired
+	private FollowRepository followRepository;
+	
+	@Autowired
+	private CommentRepository commentRepository;
 	
 	//화면이동
 	@GetMapping("user/join")
@@ -105,26 +119,27 @@ public class UserController {
 			  int clippingCount = clippingRepository.clippingCount(dto.getId());
 			  dto.setClippingCount(clippingCount);
 		  }
-//		  	if(principal!=null) {
-//		  		Follow follow = followRepository.findByFromUserAndToUser(principal.getId(),user.getId());
-//		  		if(follow != null) {
-//					  followInfo.setFromUser(principal.getId());
-//					  followInfo.setToUser(user.getId());
-//					  followInfo.setFollow(true);
-//					  
-//				  }
-//		  	}
-//			  
-//			  int followCount = followRepository.followCount(user.getId());
-//			  int followerCount = followRepository.followerCount(user.getId());
-//			  followInfo.setFollowCount(followCount);
-//			  followInfo.setFollowerCount(followerCount);
-//			  
-//			System.out.println(followInfo);
+		  	if(principal!=null) {
+		  		Follow follow = followRepository.findByFromUserAndToUser(principal.getId(),user.getId());
+		  	
+		  		if(follow != null) {
+					  followInfo.setFromUser(principal.getId());
+					  followInfo.setToUser(user.getId());
+					  followInfo.setFollow(true);
+					  
+				  }
+		  	}
+			  
+	  		int followCount = followRepository.followCount(user.getId());
+			  int followerCount = followRepository.followerCount(user.getId());
+			  followInfo.setFollowCount(followCount);
+			  followInfo.setFollowerCount(followerCount);
+			  
+			System.out.println(followInfo);
 		    System.out.println(dtos);
 		  	model.addAttribute("user", user);
 			model.addAttribute("styles", dtos);
-//			model.addAttribute("followInfo",followInfo);
+			model.addAttribute("followInfo",followInfo);
 			
 			return "/user/mypage";
 		}
@@ -147,7 +162,77 @@ public class UserController {
 			
 			return feeds;
 		}
+	
+		//알림 모달
+		  @GetMapping("/user/alert")
+			public @ResponseBody List<RespAlertDto> alert(Model model, @AuthenticationPrincipal User principal) {
+			  System.out.println("알림컨트롤러");
+				List<ReqLikeMeDto> likeDtos = likesRepository.findByLikeMe(principal.getId());
+				List<ReqFollowMeDto> followDtos = followRepository.findByFollowMe(principal.getId());
+				List<ReqCommentMeDto> commentDtos = commentRepository.findByCommentMe(principal.getId());
+				ArrayList<RespAlertDto> dtos = new ArrayList<RespAlertDto>();
+				
 		
+				  for(ReqLikeMeDto likeDto : likeDtos) {
+					  RespAlertDto dto = new RespAlertDto();
+					  dto.setStyleId(likeDto.getStyleId());
+					  dto.setUsername(likeDto.getUsername());
+					  dto.setProfile(likeDto.getProfile());
+					  dto.setImage1(likeDto.getImage1());
+					  dto.setCreateDate(likeDto.getCreateDate());
+					  dto.setLike(true);
+					  dtos.add(dto);
+				  }
+
+				  for(ReqFollowMeDto followDto : followDtos) {
+					  RespAlertDto dto = new RespAlertDto();
+					  int userId = followDto.getFromUser();
+					  Follow follow = followRepository.findByFromUserAndToUser(principal.getId(), userId);
+					  dto.setFromUser(followDto.getFromUser());
+					  dto.setUsername(followDto.getUsername());
+					  dto.setProfile(followDto.getProfile());
+					  dto.setCreateDate(followDto.getCreateDate());
+					  dto.setFollowMe(true);
+					  if(follow!=null) {
+						  dto.setFollow(true);
+					  }
+					  dtos.add(dto);
+				  
+			  }		
+				  
+				  for(ReqCommentMeDto commentDto : commentDtos) {
+					  RespAlertDto dto = new RespAlertDto();
+					  dto.setStyleId(commentDto.getStyleId());
+					  dto.setFromUser(commentDto.getFromUser());
+					  dto.setToUser(commentDto.getToUser());
+					  dto.setUsername(commentDto.getUsername());
+					  dto.setProfile(commentDto.getProfile());
+					  dto.setContent(commentDto.getContent());
+					  dto.setImage1(commentDto.getImage1());
+					  dto.setCreateDate(commentDto.getCreateDate());
+					  dto.setCommentMe(true);
+					  dtos.add(dto);
+				  }
+				  
+			  	System.out.println(followDtos);
+			  	System.out.println(likeDtos);
+				System.out.println(dtos);
+				
+				Collections.sort(dtos, new Ascending());
+				System.out.println("정렬후:" + dtos);
+				
+				return dtos;
+			}
+		  
+		  class Ascending implements Comparator<RespAlertDto>{
+
+			@Override
+			public int compare(RespAlertDto a1, RespAlertDto a2) {
+				// TODO Auto-generated method stub
+				return a2.getCreateDate().compareTo(a1.getCreateDate());
+			}
+			  
+		  }
 	//ID 유효성 검사
 		@PostMapping("user/username")
 		public ResponseEntity<?> idCheck(@Valid @RequestBody ReqIdCheckDto dto, BindingResult bindingResult) {
