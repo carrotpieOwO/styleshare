@@ -113,7 +113,7 @@
                   <p class="img float-left mr-2">
                   <img src="/media/${feed.profile}" class="border rounded-circle" onError="javascript:this.src='/img/unknown.png'" width="36" height="36"></p>
                   <p class="name clearfix " style="font-size: 11px;">${feed.username}</p>
-                  <a href="/user/mypage/${feed.username}" class="btn btn-warning mb-auto ml-auto" style="cursor: pointer; z-index:10"><i class="fas fa-home"></i></a>            
+                  <a href="/user/mypage/${feed.username}" class="btn btn-dark text-light mb-auto ml-auto" style="cursor: pointer; z-index:10"><i class="fas fa-home"></i></a>            
               </div>
       
               </div>
