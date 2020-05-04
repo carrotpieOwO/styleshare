@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.carrot.styleshare.model.product.Product;
 import com.carrot.styleshare.model.product.dto.ReqProductDto;
 import com.carrot.styleshare.model.product.dto.ReqSearchKeywordDto;
 import com.carrot.styleshare.repository.ProductRepository;
@@ -41,5 +42,9 @@ public class ProductService {
 	public List<ReqSearchKeywordDto> searchByKeyword(String keyword){
 		return productRepository.searchByKeyword(keyword);	
 	}
-
+	
+	//중복제거
+	public List<Product> selectDistinctProduct(String keyword){
+		return productRepository.selectDistinctProduct(keyword);
+	}
 }

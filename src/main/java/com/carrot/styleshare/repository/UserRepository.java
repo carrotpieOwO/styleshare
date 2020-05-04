@@ -17,6 +17,6 @@ public interface UserRepository {
 	int updatePassword(String password, String username);
 	List<RespListDto> mypageList(String username, int userId);
 	List<RespListDto> scrollDownMypage(int id1, int id2, String username);
-	List<RespSearchDto> searchByUsername(String username);
+	List<RespSearchDto> searchByUsername(String username, String introduction);
 	List<RespStyleListDto> imageByUsername(int userId);
 }

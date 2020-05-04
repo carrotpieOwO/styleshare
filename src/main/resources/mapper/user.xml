@@ -59,9 +59,9 @@
 	<!-- 검색>유저 찾기 -->
 	<select id="searchByUsername" resultType="com.carrot.styleshare.model.user.dto.RespSearchDto">
 		<![CDATA[
-		select u.id, u.username, u.profile, count(s.id)
+		select u.id, u.username, u.profile, u.introduction, count(s.id) count
 		from style s inner join user u on s.userId = u.id 
-		where u.username regexp #{username} group by u.username order by s.id
+		where u.username regexp #{username} or u.introduction regexp #{introduction} group by u.username order by s.id
 		]]>
 	</select>
 	

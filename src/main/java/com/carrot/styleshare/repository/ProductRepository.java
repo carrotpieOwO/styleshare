@@ -2,6 +2,7 @@ package com.carrot.styleshare.repository;
 
 import java.util.List;
 
+import com.carrot.styleshare.model.product.Product;
 import com.carrot.styleshare.model.product.dto.ReqProductDto;
 import com.carrot.styleshare.model.product.dto.ReqSearchKeywordDto;
 
@@ -10,5 +11,6 @@ public interface ProductRepository {
 	public List<ReqProductDto> findById(int styleId);
 	public int delete(int styleId);
 	public List<ReqSearchKeywordDto> searchByKeyword(String keyword);
+	public List<Product> selectDistinctProduct(String keyword);
 
 }

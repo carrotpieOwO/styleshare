@@ -7,15 +7,15 @@
       <div class="container" style="margin-top:150px">
         
        <div class="row text-center ml-auto justify-content-center mb-2 mr-5 mt-5" >
-	<c:forEach var="keyword" items="${keywords}">
+	<c:forEach var="proKeyword" items="${proKeywords}">
     
         	
         	<form class="mr-2" action="/search" method="get">
         	<input type="hidden" name="searchMenu" value="키워드"/>
-        	<input type="hidden" name="searchContent" value="${keyword.keyword}"/>
+        	<input type="hidden" name="searchContent" value="${proKeyword.keyword}"/>
         	
         	
-        	<button class="btn btn-dark text-outline-light" type="submit">#${keyword.keyword}</button>
+        	<button class="btn btn-dark text-outline-light" type="submit">#${proKeyword.keyword}</button>
         	</form>
         	
       

@@ -40,6 +40,7 @@ import com.carrot.styleshare.model.RespCM;
 import com.carrot.styleshare.model.clipping.Clipping;
 import com.carrot.styleshare.model.follow.Follow;
 import com.carrot.styleshare.model.like.Likes;
+import com.carrot.styleshare.model.product.Product;
 import com.carrot.styleshare.model.product.dto.ReqProductDto;
 import com.carrot.styleshare.model.product.dto.ReqProductListDto;
 import com.carrot.styleshare.model.product.dto.ReqSearchKeywordDto;
@@ -426,6 +427,7 @@ public class StyleController {
 		}
 		
 		if (searchMenu.equals("키워드")) {
+			List<Product> proKeywords = productService.selectDistinctProduct(searchContent);
 			List<ReqSearchKeywordDto> keywords = productService.searchByKeyword(searchContent);
 			for (ReqSearchKeywordDto keyword : keywords) {
 				int likeCount = likesRepository.likeCount(keyword.getId());
@@ -434,6 +436,7 @@ public class StyleController {
 				keyword.setClippingCount(clippingCount);
 			}
 			model.addAttribute("searchContent", searchContent);
+			model.addAttribute("proKeywords", proKeywords);
 			model.addAttribute("keywords", keywords);
 			System.out.println(keywords);
 			return "search/keyword";
@@ -468,7 +471,7 @@ public class StyleController {
 			}
 	
 			//유저검색
-			List<RespSearchDto> users = userService.searchByUsername(searchContent);
+			List<RespSearchDto> users = userService.searchByUsername(searchContent, searchContent);
 			for (RespSearchDto user : users) {
 			
 				List<RespStyleListDto> images = userService.imageByUsername(user.getId());

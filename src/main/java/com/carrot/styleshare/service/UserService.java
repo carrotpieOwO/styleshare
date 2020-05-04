@@ -114,8 +114,8 @@ public class UserService {
 	}
 	
 	//유저이름 검색
-	public List<RespSearchDto> searchByUsername(String username){
-		return userRepository.searchByUsername(username);
+	public List<RespSearchDto> searchByUsername(String username, String introduction){
+		return userRepository.searchByUsername(username, introduction);
 	}
 	
 	//유저이름 검색 > 게시글리스트

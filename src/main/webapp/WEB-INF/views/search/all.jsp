@@ -58,16 +58,26 @@
             <div class="card bg-light col-5 mb-3 mx-auto" style="height: 140px;">
               <div class="card-body" >
                <div class="row align-items-center">
-                 <img src="/media/${user.profile}" class="rounded-circle" width="100px" height="100px"/>
+               	<a href="/user/mypage/${user.username}">
+                 <img src="/media/${user.profile}" class="rounded-circle" width="100px" height="100px"/></a>
                  <div class="ml-2 align-items-between" >
-                  <p>@${user.username}</p>
+                  <p>@${user.username}<br/>
+                  ${user.introduction}</p>
                   <p style="font-size: 12px;">게시글 ${user.count} 팔로워 ${user.follower}</p>
                  </div>
                  <div class="ml-auto">
+                 <c:if test="${not empty user.image1}">
                   <img src="/media/${user.image1}"  width="45px" height="45px"/>
+                 </c:if> 
+                 <c:if test="${not empty user.image2}">
                   <img src="/media/${user.image2}"  width="45px" height="45px"/><br/>
-                  <img src="/media/${user.image3}"  width="45px" height="45px"/>
-                  <img src="/media/${user.image4}"  width="45px" height="45px"/>
+                 </c:if>
+                 <c:if test="${not empty user.image3}">
+                  <img src="/media/${user.image3}" class="mt-1"  width="45px" height="45px"/>
+                 </c:if>
+                 <c:if test="${not empty user.image4}">
+                  <img src="/media/${user.image4}" class="mt-1" width="45px" height="45px"/>
+                 </c:if>
                  </div>
                 
                </div>

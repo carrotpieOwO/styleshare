@@ -186,7 +186,7 @@
       	str += '<p class="img float-left mr-2">';
       	str += '<img src="/media/'+profile+'" class="border rounded-circle" onError="javascript:this.src=`/img/unknown.png`" width="36" height="36"></p>';
       	str += '<p class="name clearfix " style="font-size: 11px;">'+username+'</p>';
-      	str += '<a href="/user/mypage/'+username+'" class="btn btn-warning mb-auto ml-auto" style="cursor: pointer; z-index:10"><i class="fas fa-home"></i></a>';
+      	str += '<a href="/user/mypage/'+username+'" class="btn btn-dark text-light mb-auto ml-auto" style="cursor: pointer; z-index:10"><i class="fas fa-home"></i></a>';
       	str += '</div></p></div></div></div>';
 
       	return str;

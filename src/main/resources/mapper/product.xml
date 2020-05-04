@@ -27,4 +27,8 @@
 		where p.keyword regexp #{keyword} order by s.id desc
 	</select>
 	
+	<!-- 검색>키워드 중복제거 -->
+	<select id="selectDistinctProduct" resultType="com.carrot.styleshare.model.product.Product">
+		select distinct keyword from product where keyword regexp '${keyword}' order by id desc;
+	</select>
 </mapper>
